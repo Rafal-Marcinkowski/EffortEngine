@@ -1,0 +1,45 @@
+﻿<mah:MetroWindow
+        
+        x:Class="EffortEngine.MVVM.Views.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EffortEngine.MVVM.Views"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Top="0"
+        Left="0"
+        Height="{Binding SystemParameters.PrimaryScreenHeight}"
+        Width="{Binding WindowWidth}"
+        Background="Gray"
+        WindowStartupLocation="Manual">
+
+    <mah:MetroWindow.Resources>
+        <Conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </mah:MetroWindow.Resources>
+    
+    <Grid>
+        <Button x:Name="ToggleButton"
+                Content="☰"
+                Width="50"
+                Height="50"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Margin="0"
+                Command="{Binding ToggleWindowCommand}" />
+
+        <Grid x:Name="ContentPanel"
+              Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Top" Margin="10">
+                <Button Content="Minimize" Width="100" Command="{Binding ToggleWindowCommand}" />
+                <TextBlock Text="Treść aplikacji" FontSize="16" Margin="10" />
+                <Button Content="Task 1" Width="120" Margin="5" />
+                <Button Content="Task 2" Width="120" Margin="5" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>
