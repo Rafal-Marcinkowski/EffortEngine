@@ -1,44 +1,42 @@
-﻿namespace EffortEngine.MVVM.ViewModels;
+﻿using EffortEngine.MVVM.Views;
+using System.Windows.Input;
 
-public class MainWindowViewModel : BindableBase
+namespace EffortEngine.MVVM.ViewModels;
+
+public class MainWindowViewModel(IRegionManager regionManager) : BindableBase
 {
-    private bool _isExpanded;
-    private double _windowWidth;
-
-    public MainWindowViewModel()
+    public ICommand AddTaskCommand => new DelegateCommand(() =>
     {
-        IsExpanded = false; // Start with collapsed state
-        WindowWidth = 50; // Initial width for collapsed state
-        ToggleWindowCommand = new DelegateCommand(ToggleWindow);
-    }
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(AddTaskView));
+    });
 
-    public bool IsExpanded
+    public ICommand ManageTasksCommand => new DelegateCommand(() =>
     {
-        get => _isExpanded;
-        set => SetProperty(ref _isExpanded, value);
-    }
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(ManageTasksView));
+    });
 
-    public double WindowWidth
+    public ICommand WorkCommand => new DelegateCommand(() =>
     {
-        get => _windowWidth;
-        set => SetProperty(ref _windowWidth, value);
-    }
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(WorkView));
+    });
 
-    public DelegateCommand ToggleWindowCommand { get; }
-
-    private void ToggleWindow()
+    public ICommand MainMenuCommand => new DelegateCommand(() =>
     {
-        if (IsExpanded)
-        {
-            // Zwijanie
-            IsExpanded = false;
-            WindowWidth = 50;
-        }
-        else
-        {
-            // Rozwijanie
-            IsExpanded = true;
-            WindowWidth = 300; // Pełna szerokość
-        }
-    }
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(MainWindowView));
+    });
+
+    public ICommand SettingsCommand => new DelegateCommand(() =>
+    {
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(SettingsView));
+    });
 }

@@ -7,39 +7,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EffortEngine.MVVM.Views"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
+        xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-        WindowStyle="None"
-        ResizeMode="NoResize"
-        Top="0"
+        WindowStyle="SingleBorderWindow"
+        Top="670"
         Left="0"
-        Height="{Binding SystemParameters.PrimaryScreenHeight}"
-        Width="{Binding WindowWidth}"
-        Background="Gray"
+        Title=""
+        Height="500"
+        Width="700"
+        Background="LightGray"
         WindowStartupLocation="Manual">
 
     <mah:MetroWindow.Resources>
         <Conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </mah:MetroWindow.Resources>
-    
-    <Grid>
-        <Button x:Name="ToggleButton"
-                Content="☰"
-                Width="50"
-                Height="50"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                Margin="0"
-                Command="{Binding ToggleWindowCommand}" />
 
-        <Grid x:Name="ContentPanel"
-              Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel VerticalAlignment="Top" Margin="10">
-                <Button Content="Minimize" Width="100" Command="{Binding ToggleWindowCommand}" />
-                <TextBlock Text="Treść aplikacji" FontSize="16" Margin="10" />
-                <Button Content="Task 1" Width="120" Margin="5" />
-                <Button Content="Task 2" Width="120" Margin="5" />
-            </StackPanel>
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+        <Button  
+            Grid.Column="0"
+            Style="{StaticResource BigButtonStyle}"
+            Command="{Binding MainMenuCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Główne menu" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button 
+                Grid.Column="2"
+                Style="{StaticResource BigButtonStyle}"
+                Command="{Binding SettingsCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Ustawienia" VerticalAlignment="Center"/>
+                    <iconPacks:PackIconUnicons Kind="SettingLine" Width="30" Height="30" Margin="10,0,0,0"    />
+                </StackPanel>
+            </Button>
+            
         </Grid>
+
+        
+        <DockPanel  Grid.Row="1" Margin="25">
+            
+            <Button 
+                Style="{StaticResource BigButtonStyle}"
+                Command="{Binding AddTaskCommand}"
+                Margin="0,0,10,0">
+                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Dodaj zadanie" VerticalAlignment="Center"/>
+                <iconPacks:PackIconLucide Kind="ClipboardCheck" Width="30" Height="30" Margin="10,0,0,0"    />
+                </StackPanel>
+            </Button>
+            
+            <Button 
+                Style="{StaticResource BigButtonStyle}"
+                Margin="0,0,5,0"
+                Command="{Binding ManageTasksCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Zarządzaj zadaniami" VerticalAlignment="Center"/>
+                    <iconPacks:PackIconVaadinIcons Kind="Tasks" Width="30" Height="30" Margin="10,0,0,0"    />
+                </StackPanel>
+            </Button>
+
+            <Button 
+                Style="{StaticResource BigButtonStyle}"
+                Command="{Binding WorkCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Pracuj" VerticalAlignment="Center"/>
+                    <iconPacks:PackIconMaterialDesign Kind="WorkSharp" Width="30" Height="30" Margin="10,0,0,0"    />
+                </StackPanel>
+            </Button>
+            
+        </DockPanel>
+
+        <ContentControl prism:RegionManager.RegionName="UpperBar" Grid.Row="0"/>
+        <ContentControl prism:RegionManager.RegionName="MainRegion" Grid.Row="1"/>
+        <ContentControl prism:RegionManager.RegionName="InformationBar" Grid.Row="2"/>
+
     </Grid>
+   
 </mah:MetroWindow>
