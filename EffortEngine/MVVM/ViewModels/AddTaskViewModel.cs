@@ -1,5 +1,15 @@
-﻿namespace EffortEngine.MVVM.ViewModels;
+﻿using EffortEngine.MVVM.Views;
+using System.Windows.Input;
 
-public class AddTaskViewModel : BindableBase
+namespace EffortEngine.MVVM.ViewModels;
+
+public class AddTaskViewModel(IRegionManager regionManager) : BindableBase
 {
+
+    public ICommand AddProgrammingTaskCommand => new DelegateCommand(() =>
+    {
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(AddProgrammingTaskView));
+    });
 }

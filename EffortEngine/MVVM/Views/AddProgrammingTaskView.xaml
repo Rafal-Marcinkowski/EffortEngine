@@ -1,6 +1,5 @@
-﻿<mah:MetroContentControl
-             
-             x:Class="EffortEngine.MVVM.Views.AddTaskView"
+﻿<mah:MetroContentControl 
+             x:Class="EffortEngine.MVVM.Views.AddProgrammingTaskView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,55 +10,45 @@
              xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-    
-    
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Grid>
+        
         <DockPanel Margin="25">
-            
+
             <Button
-                Style="{StaticResource BigButtonStyle}"
-                Margin="0,0,10,0"
-                Command="{Binding AddProgrammingTaskCommand}">
+                 Style="{StaticResource BigButtonStyle}"
+                 Margin="0,0,10,0"
+                 Command="{Binding AddProgramProjectCommand}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Programowanie" VerticalAlignment="Center"/>
-                    <iconPacks:PackIconPhosphorIcons Kind="HashBold" Width="30" Height="30" Margin="10,0,0,0"    />
+                    <TextBlock Text="Program/Projekt" VerticalAlignment="Center"/>
+                    <iconPacks:PackIconFontAwesome Kind="DiagramProjectSolid" Width="30" Height="30" Margin="10,0,0,0"    />
                 </StackPanel>
             </Button>
 
             <Button
-                Style="{StaticResource BigButtonStyle}"
-                Margin="0,0,10,0"
-                Command="{Binding AddStockMarketTaskCommand}">
+                 Style="{StaticResource BigButtonStyle}"
+                 Margin="0,0,10,0"
+                Command="{Binding AddFeatureCommand}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Giełda" VerticalAlignment="Center"/>
-                    <iconPacks:PackIconModern Kind="Stock" Width="30" Height="30" Margin="10,0,0,0"    />
-                </StackPanel>
-            </Button>
-
-            <Button
-                Style="{StaticResource BigButtonStyle}"
-                Margin="0,0,10,0"
-                Command="{Binding AddSystemTaskCommand}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="System" VerticalAlignment="Center"/>
+                    <TextBlock Text="Funkcja" VerticalAlignment="Center"/>
                     
                 </StackPanel>
             </Button>
 
             <Button
-                Style="{StaticResource BigButtonStyle}"
-                Margin="0,0,10,0"
-                Command="{Binding AddLifeTaskCommand}">  
+                 Style="{StaticResource BigButtonStyle}"
+                 Margin="0,0,10,0"
+                 Command="{Binding AddBugCommand}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Życie" VerticalAlignment="Center"/>
-
+                    <TextBlock Text="Bug" VerticalAlignment="Center"/>
+                    <iconPacks:PackIconBoxIcons Kind="SolidBug" Width="30" Height="30" Margin="10,0,0,0"    />
                 </StackPanel>
             </Button>
-            
+
         </DockPanel>
+        
     </Grid>
     
 </mah:MetroContentControl>
