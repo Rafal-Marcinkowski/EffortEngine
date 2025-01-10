@@ -1,5 +1,8 @@
 ﻿using EffortEngine.MVVM.ViewModels;
 using EffortEngine.MVVM.Views;
+using Microsoft.Extensions.Configuration;
+using Serilog;
+using SharedProject;
 using System.Windows;
 
 namespace EffortEngine;
@@ -15,12 +18,20 @@ public partial class App : PrismApplication
     {
         base.OnInitialized();
 
+        LogManager.InitializeLogger();
+
         var regionManager = Container.Resolve<IRegionManager>();
         regionManager.RequestNavigate("MainRegion", nameof(MainMenuView));
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+        containerRegistry.RegisterInstance<IConfiguration>(new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .Build());
+
+        containerRegistry.RegisterInstance<ILogger>(Log.Logger);
+
         containerRegistry.RegisterForNavigation<WorkView>();
         containerRegistry.RegisterForNavigation<ManageTasksView>();
         containerRegistry.RegisterForNavigation<AddProgrammingTaskView>();
