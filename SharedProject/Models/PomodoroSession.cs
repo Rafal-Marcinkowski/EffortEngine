@@ -13,12 +13,12 @@ public class PomodoroSession
     }
 
     public int Id { get; set; }
-    public int TaskId { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public int WorkTime { get; set; }
     public int BreakTime { get; set; }
     public int Rounds { get; set; }
     public SessionStatus Status { get; set; }
-    public TaskBase Task { get; set; }
+    public int? ProgramId { get; set; }
+    public List<TaskBase> Tasks { get; set; } = [];
 }

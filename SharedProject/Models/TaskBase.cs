@@ -1,6 +1,6 @@
 ﻿namespace SharedProject.Models;
 
-public class TaskBase
+public abstract class TaskBase
 {
     public enum TaskStatus
     {
@@ -18,7 +18,7 @@ public class TaskBase
     public DateTime? DueDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public TaskStatus Status { get; set; }
-    public int NrOfSessions { get; set; }
-    public double WorkTime { get; set; }
-    public string Notes { get; set; }
+    public decimal WorkTime { get; set; }
+    public string Note { get; set; }
+    public int? ProgramId { get; set; }
 }

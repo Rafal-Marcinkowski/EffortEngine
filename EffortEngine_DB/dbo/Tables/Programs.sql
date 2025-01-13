@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Programs]
+(
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY,
+    [Name] NVARCHAR(100) NOT NULL,
+    [TotalWorkTime] DECIMAL(10, 2) NOT NULL
+);

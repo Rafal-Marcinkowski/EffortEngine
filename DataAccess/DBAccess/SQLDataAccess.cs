@@ -7,24 +7,25 @@ using System.Data;
 
 namespace DataAccess.DBAccess;
 
-public class SQLDataAccess(IConfiguration configuration, ILogger logger)
+public class SQLDataAccess(IConfiguration configuration, ILogger logger) : ISQLDataAccess
 {
-    public async Task<IEnumerable<T>> LoadDataAsync<T, U>(string storedProcedure, U parameters)
+    public async Task<IEnumerable<T>> LoadDataWithQueryAsync<T>(string sqlQuery, object parameters = null)
     {
         using IDbConnection dbConnection = new SqlConnection(configuration.GetConnectionString("EffortEngine_DBConnectionString"));
-        return await dbConnection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+        return await dbConnection.QueryAsync<T>(sqlQuery, parameters);
     }
 
-    public async Task SaveDataAsync<T>(string storedProcedure, T parameters)
+    public async Task SaveDataWithQueryAsync(string sqlQuery, object parameters = null)
     {
         try
         {
             using IDbConnection dbConnection = new SqlConnection(configuration.GetConnectionString("EffortEngine_DBConnectionString"));
-            await dbConnection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            await dbConnection.ExecuteAsync(sqlQuery, parameters);
         }
+
         catch (Exception ex)
         {
-            logger.Error<Exception>($"Błąd przy zapisywaniu danych do bazy danych: ", ex);
+            logger.Error($"Błąd przy zapisywaniu danych do bazy danych: {ex.Message}", ex);
         }
     }
 }
