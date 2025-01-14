@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Data;
 
-
 namespace DataAccess.DBAccess;
 
 public class SQLDataAccess(IConfiguration configuration, ILogger logger) : ISQLDataAccess

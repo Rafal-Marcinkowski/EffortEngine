@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "EffortEngine_DB", "EffortEngine_DB\EffortEngine_DB.sqlproj", "{87A9E4BC-8A36-463E-BED2-EAD8C6A143C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidationComponent", "ValidationComponent\ValidationComponent.csproj", "{855A9421-0E96-4607-9385-F4712B31E8AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{87A9E4BC-8A36-463E-BED2-EAD8C6A143C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87A9E4BC-8A36-463E-BED2-EAD8C6A143C1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87A9E4BC-8A36-463E-BED2-EAD8C6A143C1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{855A9421-0E96-4607-9385-F4712B31E8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{855A9421-0E96-4607-9385-F4712B31E8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{855A9421-0E96-4607-9385-F4712B31E8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{855A9421-0E96-4607-9385-F4712B31E8AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

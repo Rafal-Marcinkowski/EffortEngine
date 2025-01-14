@@ -18,13 +18,14 @@
 
             <TextBox 
                 x:Name="ProgramProjectNameTextBox"
-               Style="{StaticResource TextBoxStyle}"
+                Style="{StaticResource TextBoxStyle}"
                 MinWidth="450"
+                Text="{Binding ProgramName, UpdateSourceTrigger=PropertyChanged}"
                 Controls:TextBoxHelper.Watermark="Nazwa programu/projektu"/>
 
             <Button
                 Style="{StaticResource BigButtonStyle}"
-                Command="{Binding AddProgrammingTaskCommand}"
+                Command="{Binding AddProgramProjectCommand}"
                 Width="100">
                 <iconPacks:PackIconMaterial Kind="ContentSave" Width="30" Height="30"/>
             </Button>
