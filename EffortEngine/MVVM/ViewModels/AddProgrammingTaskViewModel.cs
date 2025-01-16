@@ -13,6 +13,13 @@ public class AddProgrammingTaskViewModel(IRegionManager regionManager) : Bindabl
         regionManager.RequestNavigate("MainRegion", nameof(AddProgramProjectView));
     });
 
+    public ICommand AddModuleCommand => new DelegateCommand(() =>
+    {
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(AddModuleView));
+    });
+
     public ICommand AddFeatureCommand => new DelegateCommand(() =>
     {
         var region = regionManager.Regions["MainRegion"];

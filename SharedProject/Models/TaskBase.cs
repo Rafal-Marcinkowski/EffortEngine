@@ -1,6 +1,6 @@
 ﻿namespace SharedProject.Models;
 
-public abstract class TaskBase
+public abstract class TaskBase : BindableBase
 {
     public enum TaskStatus
     {
@@ -8,6 +8,16 @@ public abstract class TaskBase
         InProgress,
         Completed,
         Paused
+    }
+
+    public enum TaskType
+    {
+        Module,
+        Feature,
+        Bug,
+        LifeTask,
+        StockMarketTask,
+        SystemTask
     }
 
     public int Id { get; set; }
@@ -18,6 +28,7 @@ public abstract class TaskBase
     public DateTime? DueDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public TaskStatus Status { get; set; }
+    public TaskType Type { get; set; }
     public decimal WorkTime { get; set; }
     public string Note { get; set; }
     public int? ProgramId { get; set; }

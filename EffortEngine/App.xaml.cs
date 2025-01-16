@@ -38,6 +38,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<WorkView>();
         containerRegistry.RegisterForNavigation<ManageTasksView>();
         containerRegistry.RegisterForNavigation<AddProgrammingTaskView>();
+        containerRegistry.RegisterForNavigation<AddModuleView>();
         containerRegistry.RegisterForNavigation<AddLifeTaskView>();
         containerRegistry.RegisterForNavigation<AddSystemTaskView>();
         containerRegistry.RegisterForNavigation<InformationBarView>();
@@ -57,6 +58,7 @@ public partial class App : PrismApplication
         containerRegistry.Register<AddStockMarketTaskViewModel>();
         containerRegistry.Register<AddFeatureViewModel>();
         containerRegistry.Register<AddProgramProjectViewModel>();
+        containerRegistry.Register<AddModuleViewModel>();
         containerRegistry.Register<AddTaskViewModel>();
         containerRegistry.Register<WorkViewModel>();
         containerRegistry.Register<ManageTasksView>();

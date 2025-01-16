@@ -42,7 +42,7 @@
                 <Setter Property="FontFamily" Value="Calibri"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Height" Value="50"/>
+                <Setter Property="Height" Value="auto"/>
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="Black" />
                 <Setter Property="Controls:ControlsHelper.CornerRadius" Value="7" />
@@ -54,7 +54,7 @@
                 <Setter Property="FontFamily" Value="Calibri"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Height" Value="50"/>
+                <Setter Property="Height" Value="auto"/>
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontWeight" Value="DemiBold" />
                 <Setter Property="Foreground" Value="GhostWhite"/>

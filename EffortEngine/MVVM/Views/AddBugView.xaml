@@ -14,7 +14,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid Margin="5">
+    <Grid Margin="10">
+        
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="3*"/>
@@ -30,20 +31,23 @@
             <TextBlock 
             Text="Program: " 
             Foreground="Black"
-            FontSize="24"
-            Style="{StaticResource TextBlockStyle}"/>
+            FontSize="26"
+            Style="{StaticResource TextBlockStyle}"
+                Height="auto"/>
 
             <TextBlock 
-            Text="{Binding SelectedProgram}"
+            Text="{Binding SelectedProgram.Name}"
             Foreground="Black"
-            Style="{StaticResource TextBlockStyle}"/>
+            Style="{StaticResource TextBlockStyle}"
+                Height="auto"
+               />
 
         </DockPanel>
 
         <Button 
-        Command="{Binding ConfirmCompanySelectionCommand}"
-        CommandParameter="{Binding ElementName=companyListBox, Path=SelectedItem}"
-        Grid.Row="1" Style="{StaticResource BigButtonStyle}" Width="auto" Height="auto">
+            Command="{Binding ConfirmProgramSelectionCommand}"
+            CommandParameter="{Binding ElementName=programsListBox, Path=SelectedItem}"
+            Grid.Row="1" Style="{StaticResource BigButtonStyle}" Width="auto" Height="auto">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                 <TextBlock 
@@ -53,14 +57,14 @@
                     Foreground="Black"
                     Style="{StaticResource TextBlockStyle}"/>
 
-                <ListBox x:Name="companyListBox" BorderBrush="DimGray"
+                <ListBox x:Name="programsListBox" BorderBrush="DimGray"
                          BorderThickness="2" Width="200" Height="180"
-                         ItemsSource="{Binding FilteredCompanies}"
+                         ItemsSource="{Binding Programs}"
                          IsHitTestVisible="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
-                            <prism:InvokeCommandAction Command="{Binding ConfirmCompanySelectionCommand}"
-                            CommandParameter="{Binding ElementName=companyListBox, Path=SelectedItem}" />
+                            <prism:InvokeCommandAction Command="{Binding ConfirmProgramSelectionCommand}"
+                            CommandParameter="{Binding ElementName=programsListBox, Path=SelectedItem}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ListBox.ItemTemplate>
@@ -71,10 +75,13 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock 
-                                Text="{Binding CompanyName}" 
+                                Text="{Binding Name}" 
                                 Grid.Column="0"
                                 FontSize="12"
-                                Style="{StaticResource TextBlockStyle}"/>
+                                Style="{StaticResource TextBlockStyle}"
+                                    HorizontalAlignment="Left"
+                                    Height="auto"
+                                    Margin="5"/>
 
                             </Grid>
                         </DataTemplate>
@@ -100,7 +107,6 @@
              Foreground="Black"   
              Style="{StaticResource TextBlockStyle}"/>
                 <TextBlock 
-             Text="{Binding SelectedProgram}"
              Style="{StaticResource TextBlockStyle}"/>
 
                 <TextBox 
@@ -108,8 +114,10 @@
                 FontSize="16"
                 VerticalContentAlignment="Center"
                 Width="300"
+                MinHeight="50"
+                Height="50"
                 Style="{StaticResource TextBoxStyle}"
-                Text="{Binding FeatureName}"/>
+                Text="{Binding BugName}"/>
 
             </DockPanel>
 
@@ -130,6 +138,7 @@
                 Width="300"
                 FontSize="14"
                 Height="auto"
+                    MinHeight="100"
                 TextWrapping="Wrap"
                 Style="{StaticResource TextBoxStyle}"
                 Text="{Binding FeatureTitle}"/>
@@ -167,10 +176,11 @@
                 </ComboBox>
 
                 <Button
-                Style="{StaticResource BigButtonStyle}"
-                Command="{Binding AddProgrammingTaskCommand}"
-                Width="100"
-                Margin="50,0,0,0">
+                    Style="{StaticResource BigButtonStyle}"
+                    Command="{Binding AddProgrammingTaskCommand}"
+                    Width="90"
+                    Height="auto"
+                    Margin="50,0,0,0">
                     <iconPacks:PackIconMaterial Kind="BugCheck" Width="30" Height="30"/>
                 </Button>
 

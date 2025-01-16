@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class AddFeatureViewModel : BindableBase
+public class AddModuleViewModel : BindableBase
 {
     private readonly IProgramData programData;
 
-    public AddFeatureViewModel(IProgramData programData)
+    public AddModuleViewModel(IProgramData programData)
     {
         this.programData = programData;
         GetProgramsAsync();

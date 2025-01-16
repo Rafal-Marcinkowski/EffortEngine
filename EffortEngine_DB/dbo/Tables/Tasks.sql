@@ -8,6 +8,7 @@
     [DueDate] DATETIME NULL,
     [CompletionDate] DATETIME NULL,
     [Status] INT NOT NULL,
+    [Type] INT NOT NULL,
     [WorkTime] DECIMAL(10, 2) NOT NULL,
     [ProgramId] INT NULL,
     FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Programs]([Id])
