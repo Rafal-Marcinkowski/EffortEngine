@@ -110,7 +110,7 @@
              Style="{StaticResource TextBlockStyle}"/>
 
                 <TextBox 
-                x:Name="featureNameTextBox"
+                x:Name="bugNameTextBox"
                 FontSize="16"
                 VerticalContentAlignment="Center"
                 Width="300"
@@ -129,19 +129,16 @@
              FontSize="22"
                 Foreground="black"
              Style="{StaticResource TextBlockStyle}"/>
-                <TextBlock 
-             Text="{Binding FeatureDescription}"
-             Style="{StaticResource TextBlockStyle}"/>
 
                 <TextBox 
-                x:Name="featureDescriptionTextBox"
+                x:Name="bugDescriptionTextBox"
                 Width="300"
                 FontSize="14"
                 Height="auto"
                     MinHeight="100"
                 TextWrapping="Wrap"
                 Style="{StaticResource TextBoxStyle}"
-                Text="{Binding FeatureTitle}"/>
+                Text="{Binding BugDescription}"/>
 
             </DockPanel>
 
@@ -153,9 +150,6 @@
              Foreground="Black"
              FontSize="22"
              Style="{StaticResource TextBlockStyle}"/>
-                <TextBlock 
-             Text="{Binding FeatureDescription}"
-             Style="{StaticResource TextBlockStyle}"/>
 
                 <ComboBox 
                 Width="150"
@@ -165,7 +159,7 @@
                 Controls:ControlsHelper.FocusBorderBrush="Black"
                 Controls:ControlsHelper.CornerRadius="7" 
                 Controls:ControlsHelper.MouseOverBorderBrush="Gray"
-                SelectedItem="{Binding SelectedPriority, Mode=TwoWay}"
+                SelectedItem="{Binding BugPriority, Mode=TwoWay}"
                 FontFamily="Calibri"
                 FontWeight="DemiBold"
                 HorizontalContentAlignment="Center">
@@ -177,7 +171,7 @@
 
                 <Button
                     Style="{StaticResource BigButtonStyle}"
-                    Command="{Binding AddProgrammingTaskCommand}"
+                    Command="{Binding AddBugCommand}"
                     Width="90"
                     Height="auto"
                     Margin="50,0,0,0">

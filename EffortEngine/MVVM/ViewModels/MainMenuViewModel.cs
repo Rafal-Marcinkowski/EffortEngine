@@ -12,4 +12,11 @@ public class MainMenuViewModel(IRegionManager regionManager) : BindableBase
         region.RemoveAll();
         regionManager.RequestNavigate("MainRegion", nameof(AddTaskView));
     });
+
+    public ICommand ManageTasksCommand => new DelegateCommand(() =>
+    {
+        var region = regionManager.Regions["MainRegion"];
+        region.RemoveAll();
+        regionManager.RequestNavigate("MainRegion", nameof(ManageTasksView));
+    });
 }

@@ -43,4 +43,12 @@ public class ProgramData(ISQLDataAccess dbAccess) : IProgramData
         string sql = "DELETE FROM Programs WHERE Id = @Id";
         await dbAccess.SaveDataWithQueryAsync(sql, new { Id = id });
     }
+
+    public async Task<int?> GetProgramIdAsync(string name)
+    {
+        string sql = "SELECT Id FROM Programs WHERE Name = @Name";
+        var result = await dbAccess.LoadDataWithQueryAsync<int>(sql, new { Name = name });
+
+        return result.FirstOrDefault();
+    }
 }

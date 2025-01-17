@@ -25,6 +25,7 @@ public abstract class TaskBase : BindableBase
     public string Description { get; set; }
     public int Priority { get; set; }
     public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdated { get; set; }
     public DateTime? DueDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public TaskStatus Status { get; set; }

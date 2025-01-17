@@ -110,28 +110,25 @@
       Style="{StaticResource TextBlockStyle}"/>
 
                 <TextBox 
-         x:Name="featureNameTextBox"
+         x:Name="moduleNameTextBox"
          FontSize="16"
          VerticalContentAlignment="Center"
          Width="300"
          MinHeight="50"
          Height="50"
          Style="{StaticResource TextBoxStyle}"
-         Text="{Binding FeatureName}"/>
+         Text="{Binding ModuleName}"/>
 
             </DockPanel>
 
             <DockPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <TextBlock 
-      Text="Opis: "
-      Height="auto"   
-      FontSize="22"
-         Foreground="black"
-      Style="{StaticResource TextBlockStyle}"/>
-                <TextBlock 
-      Text="{Binding FeatureDescription}"
-      Style="{StaticResource TextBlockStyle}"/>
+          Text="Opis: "
+          Height="auto"   
+          FontSize="22"
+             Foreground="black"
+          Style="{StaticResource TextBlockStyle}"/>
 
                 <TextBox 
          x:Name="featureDescriptionTextBox"
@@ -141,34 +138,31 @@
              MinHeight="100"
          TextWrapping="Wrap"
          Style="{StaticResource TextBoxStyle}"
-         Text="{Binding FeatureTitle}"/>
+         Text="{Binding ModuleDescription}"/>
 
             </DockPanel>
 
             <DockPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <TextBlock 
-      Text="Priorytet: "
-      Height="auto"
-      Foreground="Black"
-      FontSize="22"
-      Style="{StaticResource TextBlockStyle}"/>
-                <TextBlock 
-      Text="{Binding FeatureDescription}"
-      Style="{StaticResource TextBlockStyle}"/>
+          Text="Priorytet: "
+          Height="auto"
+          Foreground="Black"
+          FontSize="22"
+          Style="{StaticResource TextBlockStyle}"/>
 
                 <ComboBox 
-         Width="150"
-         Height="30"
-         BorderBrush="DimGray"
-         BorderThickness="2"
-         Controls:ControlsHelper.FocusBorderBrush="Black"
-         Controls:ControlsHelper.CornerRadius="7" 
-         Controls:ControlsHelper.MouseOverBorderBrush="Gray"
-         SelectedItem="{Binding SelectedPriority, Mode=TwoWay}"
-         FontFamily="Calibri"
-         FontWeight="DemiBold"
-         HorizontalContentAlignment="Center">
+             Width="150"
+             Height="30"
+             BorderBrush="DimGray"
+             BorderThickness="2"
+             Controls:ControlsHelper.FocusBorderBrush="Black"
+             Controls:ControlsHelper.CornerRadius="7" 
+             Controls:ControlsHelper.MouseOverBorderBrush="Gray"
+             SelectedItem="{Binding SelectedPriority, Mode=TwoWay}"
+             FontFamily="Calibri"
+             FontWeight="DemiBold"
+             HorizontalContentAlignment="Center">
 
                     <ComboBoxItem>Niski</ComboBoxItem>
                     <ComboBoxItem>Średni</ComboBoxItem>
@@ -177,7 +171,7 @@
 
                 <Button
              Style="{StaticResource BigButtonStyle}"
-             Command="{Binding AddProgrammingTaskCommand}"
+             Command="{Binding AddModuleCommand}"
              Width="90"
              Height="auto"
              Margin="50,0,0,0">

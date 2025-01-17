@@ -129,9 +129,6 @@
          FontSize="22"
             Foreground="black"
          Style="{StaticResource TextBlockStyle}"/>
-                <TextBlock 
-         Text="{Binding FeatureDescription}"
-         Style="{StaticResource TextBlockStyle}"/>
 
                 <TextBox 
             x:Name="featureDescriptionTextBox"
@@ -141,7 +138,7 @@
                 MinHeight="100"
             TextWrapping="Wrap"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding FeatureTitle}"/>
+            Text="{Binding FeatureDescription}"/>
 
             </DockPanel>
 
@@ -152,9 +149,6 @@
          Height="auto"
          Foreground="Black"
          FontSize="22"
-         Style="{StaticResource TextBlockStyle}"/>
-                <TextBlock 
-         Text="{Binding FeatureDescription}"
          Style="{StaticResource TextBlockStyle}"/>
 
                 <ComboBox 
@@ -177,7 +171,7 @@
 
                 <Button
                 Style="{StaticResource BigButtonStyle}"
-                Command="{Binding AddProgrammingTaskCommand}"
+                Command="{Binding AddFeatureCommand}"
                 Width="90"
                 Height="auto"
                 Margin="50,0,0,0">

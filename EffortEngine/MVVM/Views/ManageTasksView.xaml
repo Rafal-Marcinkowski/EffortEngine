@@ -14,9 +14,45 @@
     
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <Grid>
-        <Button Content="managetasks"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Panel listy zadań -->
+        <DataGrid Grid.Column="0" ItemsSource="{Binding TaskList}" SelectedItem="{Binding SelectedTask}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nazwa" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                <DataGridTextColumn Header="Sesje" Binding="{Binding NrOfSessions}" />
+                <DataGridTextColumn Header="Czas pracy" Binding="{Binding WorkTime}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Panel szczegółów -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="Szczegóły zadania" FontWeight="Bold" FontSize="18"/>
+            <TextBox Text="{Binding SelectedTask.Name}" />
+            <TextBox Text="{Binding SelectedTask.Description}" AcceptsReturn="True" Height="100"/>
+            <TextBlock Text="Sesje Pomodoro: {Binding SelectedTask.NrOfSessions}" />
+            <TextBlock Text="Łączny czas: {Binding SelectedTask.WorkTime}" />
+            <Button Content="Zapisz zmiany" Command="{Binding SaveTaskCommand}" />
+            <Button Content="Usuń zadanie" Command="{Binding DeleteTaskCommand}" />
+        </StackPanel>
+
+        <!-- Panel Pomodoro -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Margin="10">
+            <TextBlock Text="Sesja Pomodoro" FontWeight="Bold" FontSize="18"/>
+            <TextBlock Text="{Binding TimerDisplay}" FontSize="36" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Start" Command="{Binding StartPomodoroCommand}" />
+                <Button Content="Pause" Command="{Binding PausePomodoroCommand}" />
+                <Button Content="Reset" Command="{Binding ResetPomodoroCommand}" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
-    
+
+
 </mah:MetroContentControl>

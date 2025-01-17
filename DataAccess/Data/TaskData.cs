@@ -24,9 +24,10 @@ public class TaskData(ISQLDataAccess dbAccess) : ITaskData
     {
         string sql = @"
             INSERT INTO Tasks 
-            (Name, Description, Priority, CreatedAt, DueDate, CompletionDate, Status, WorkTime, Note, ProgramId)
+            (Name, Description, Priority, CreatedAt, LastUpdated, DueDate, CompletionDate, Status, Type, WorkTime, Note, ProgramId)
             VALUES 
-            (@Name, @Description, @Priority, @CreatedAt, @DueDate, @CompletionDate, @Status, @WorkTime, @Note, @ProgramId)";
+            (@Name, @Description, @Priority, @CreatedAt, @LastUpdated, @DueDate, @CompletionDate, @Status, @Type, @WorkTime, @Note, @ProgramId)";
+
         await dbAccess.SaveDataWithQueryAsync(sql, task);
     }
 
@@ -38,6 +39,7 @@ public class TaskData(ISQLDataAccess dbAccess) : ITaskData
                 Description = @Description, 
                 Priority = @Priority, 
                 CreatedAt = @CreatedAt, 
+                LastUpdated = @LastUpdated,
                 DueDate = @DueDate, 
                 CompletionDate = @CompletionDate, 
                 Status = @Status, 
