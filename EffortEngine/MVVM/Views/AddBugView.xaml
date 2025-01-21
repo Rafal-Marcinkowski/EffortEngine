@@ -159,7 +159,8 @@
                 Controls:ControlsHelper.FocusBorderBrush="Black"
                 Controls:ControlsHelper.CornerRadius="7" 
                 Controls:ControlsHelper.MouseOverBorderBrush="Gray"
-                SelectedItem="{Binding BugPriority, Mode=TwoWay}"
+                SelectedValue="{Binding BugPriority, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Content"
                 FontFamily="Calibri"
                 FontWeight="DemiBold"
                 HorizontalContentAlignment="Center">

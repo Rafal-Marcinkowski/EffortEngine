@@ -7,4 +7,5 @@ public class Program
     public decimal TotalWorkTime { get; set; }
     public List<Bug> Bugs { get; set; }
     public List<Feature> Features { get; set; }
+    public List<Module> Modules { get; set; }
 }

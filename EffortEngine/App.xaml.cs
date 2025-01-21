@@ -46,6 +46,8 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<AddStockMarketTaskView>();
         containerRegistry.RegisterForNavigation<AddFeatureView>();
         containerRegistry.RegisterForNavigation<AddProgramProjectView>();
+        containerRegistry.RegisterForNavigation<AllTasksTableView, ManageTasksViewModel>();
+        containerRegistry.RegisterForNavigation<ProgramsTaskTableView, ManageTasksViewModel>();
         containerRegistry.RegisterForNavigation<MainMenuView>();
         containerRegistry.RegisterForNavigation<AddTaskView>();
         containerRegistry.RegisterForNavigation<SettingsView>();
@@ -61,7 +63,7 @@ public partial class App : PrismApplication
         containerRegistry.Register<AddModuleViewModel>();
         containerRegistry.Register<AddTaskViewModel>();
         containerRegistry.Register<WorkViewModel>();
-        containerRegistry.Register<ManageTasksView>();
+        containerRegistry.RegisterSingleton<ManageTasksViewModel>();
         containerRegistry.RegisterSingleton<ISQLDataAccess, SQLDataAccess>();
         containerRegistry.RegisterSingleton<IProgramData, ProgramData>();
         containerRegistry.RegisterSingleton<IPomodoroSessionData, PomodoroSessionData>();
