@@ -17,30 +17,139 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3.5*"/>
+            <ColumnDefinition Width="2.5*"/>
         </Grid.ColumnDefinitions>
-        
-        <ContentControl Grid.Column="0" prism:RegionManager.RegionName="TaskTableRegion"/>
 
-        <StackPanel Grid.Column="1" Margin="10">
-            <TextBlock Text="Szczegóły zadania" FontWeight="Bold" FontSize="18"/>
-            <TextBox Text="{Binding SelectedTask.Description, Mode=TwoWay}" AcceptsReturn="True" Height="100"/>
+        <Border BorderBrush="DimGray" BorderThickness="2">
             
-            <Button Content="Zapisz zmiany" Command="{Binding SaveTaskCommand}" />
-            <Button Content="Usuń zadanie" Command="{Binding DeleteTaskCommand}" />
-        </StackPanel>
+        <ContentControl Grid.Column="0" prism:RegionManager.RegionName="TaskTableRegion"/>
+        </Border>
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Margin="10">
-            <TextBlock Text="Sesja Pomodoro" FontWeight="Bold" FontSize="18"/>
-            <TextBlock Text="{Binding TimerDisplay}" FontSize="36" HorizontalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Start" Command="{Binding StartPomodoroCommand}" />
-                <Button Content="Pause" Command="{Binding PausePomodoroCommand}" />
-                <Button Content="Reset" Command="{Binding ResetPomodoroCommand}" />
-            </StackPanel>
-        </StackPanel>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
+                        
+                        <Button 
+                            Style="{StaticResource BigButtonStyle}"
+                            Command="{Binding ShowAllTasksCommand}"
+                            FontSize="12"
+                            Height="30"
+                            Padding="5">
+                            <TextBlock Text="Wszystkie" VerticalAlignment="Center"/>
+                        </Button>
+                        
+                        <Button 
+                            Style="{StaticResource BigButtonStyle}"
+                            Command="{Binding ShowProgramsCommand}"
+                            FontSize="12"
+                            Height="30"
+                            Padding="5">
+                            <TextBlock Text="Programy" VerticalAlignment="Center"/>
+                        </Button>
+                        
+                        <Button 
+                            Style="{StaticResource BigButtonStyle}"
+                            Command="{Binding ShowAllProgrammingTasksCommand}"
+                            FontSize="12"
+                            Height="30"
+                            Padding="5">
+                            <iconPacks:PackIconLucide Kind="Hash" Width="12" Height="12"/>
+                        </Button>
+                        
+                        <Button 
+                            Style="{StaticResource BigButtonStyle}"
+                            Command="{Binding ShowSystemTasksCommand}"
+                            FontSize="12"
+                            Height="30"
+                            Padding="5">
+                            <TextBlock Text="System" VerticalAlignment="Center"/>
+                        </Button>
+                        
+                        <Button 
+                            Style="{StaticResource BigButtonStyle}"
+                            Command="{Binding ShowStockMarketTasksView}"
+                            FontSize="12"
+                            Height="30"
+                            Padding="5">
+                            <TextBlock Text="Giełda" VerticalAlignment="Center"/>
+                        </Button>
+                        
+                        <Button 
+                            Style="{StaticResource BigButtonStyle}"
+                            Command="{Binding ShowLifeTasksView}"
+                            FontSize="12"
+                            Height="30"
+                            Padding="5">
+                            <TextBlock Text="Życie" VerticalAlignment="Center"/>
+                        </Button>
+                        
+                    </StackPanel>
+                </Grid>
+
+                <!-- Opis i Notatka -->
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <TextBlock Text="Opis" FontWeight="DemiBold" HorizontalAlignment="Center"
+                               Margin="0,0,0,0"
+                               FontSize="16"/>
+                    <TextBox Text="{Binding SelectedTask.Description, Mode=TwoWay}"
+                             AcceptsReturn="True"
+                             Height="80"
+                             FontSize="10"
+                             Margin="5,0,5,0"
+                             Width="auto"/>
+                    <TextBlock Text="Notatka"
+                               FontWeight="DemiBold"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,0"
+                               FontSize="16"/>
+                    <TextBox Text="{Binding SelectedTask.Notes, Mode=TwoWay}"
+                             Height="80"
+                             FontSize="10"
+                             AcceptsReturn="True"
+                             Margin="5,0,5,0"
+                             Width="auto"/>
+                </StackPanel>
+
+                    <Button Style="{StaticResource BigButtonStyle}"
+                            Command="{Binding SaveTaskCommand}"
+                             Height="38"
+                            Width="150"
+                            Grid.Row="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Zapisz zmiany" VerticalAlignment="Center" FontSize="16"/>
+                            <iconPacks:PackIconModern Kind="Save" Width="20" Height="20" Margin="5,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+
+                <Button Style="{StaticResource BigButtonStyle}"
+                        Command="{Binding StartWorkCommand}"
+                        Height="38"
+                        Margin="0,1,0,0"
+                        Width="150"
+                        HorizontalAlignment="Center"
+                        Grid.Row="3">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Pracuj" FontSize="16" VerticalAlignment="Center"/>
+                    <iconPacks:PackIconMaterialDesign Kind="WorkSharp" Width="20" Height="20" Margin="5,0,5,0"/>
+                </StackPanel>
+            </Button>
+            </Grid>
     </Grid>
+
+
 
 
 </mah:MetroContentControl>

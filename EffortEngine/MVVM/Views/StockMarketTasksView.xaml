@@ -1,28 +1,28 @@
 ﻿<mah:MetroContentControl
-             x:Class="EffortEngine.MVVM.Views.ProgramsTaskTableView"
+    x:Class="EffortEngine.MVVM.Views.StockMarketTasksView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EffortEngine.MVVM.Views"
-             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
-             xmlns:prism="http://prismlibrary.com/"
-             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    
+                               xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+         xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
+         xmlns:prism="http://prismlibrary.com/"
+         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+         mc:Ignorable="d" 
+         d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
         <DataGrid
-            
-          ItemsSource="{Binding ProgramList}"
-          SelectedItem="{Binding SelectedProgram, UpdateSourceTrigger=PropertyChanged}"
-          AutoGenerateColumns="False"
-          IsReadOnly="True"
-          SelectionMode="Single"
-          FontSize="10"
-          SelectionUnit="FullRow">
+   
+         ItemsSource="{Binding TaskList}"
+         SelectedItem="{Binding SelectedTask, UpdateSourceTrigger=PropertyChanged}"
+         AutoGenerateColumns="False"
+         IsReadOnly="True"
+         SelectionMode="Single"
+         FontSize="10"
+         SelectionUnit="FullRow">
 
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Nazwa" MaxWidth="150">
@@ -32,9 +32,9 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Bugi" Binding="{Binding Bugs.Count}" />
-                <DataGridTextColumn Header="Funkcje" Binding="{Binding Features.Count}" />
-                <DataGridTextColumn Header="Moduły" Binding="{Binding Modules.Count}" />
+                <DataGridTextColumn Header="Priorytet" Binding="{Binding PriorityString}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding StatusString}" />
+                <DataGridTextColumn Header="Typ" Binding="{Binding TypeString}" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -47,8 +47,9 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Ostatnia zmiana" Binding="{Binding LastUpdated}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
-    
-</mah:MetroContentControl>
+    </mah:MetroContentControl>
+

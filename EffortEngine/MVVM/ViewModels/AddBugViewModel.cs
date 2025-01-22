@@ -85,6 +85,7 @@ public class AddBugViewModel : BindableBase
                     "Wysoki" => 2,
                     _ => 10
                 },
+
                 ProgramId = SelectedProgram.Id,
             };
 

@@ -1,5 +1,5 @@
 ﻿namespace SharedProject.Models;
 
-public class LifeTask
+public class LifeTask : TaskBase
 {
 }
