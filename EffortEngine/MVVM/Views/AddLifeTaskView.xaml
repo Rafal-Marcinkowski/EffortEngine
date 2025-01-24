@@ -87,7 +87,8 @@
          Controls:ControlsHelper.FocusBorderBrush="Black"
          Controls:ControlsHelper.CornerRadius="7" 
          Controls:ControlsHelper.MouseOverBorderBrush="Gray"
-         SelectedItem="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}"
+         SelectedValue="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}"
+         SelectedValuePath="Content"
          FontFamily="Calibri"
          FontWeight="DemiBold"
          HorizontalContentAlignment="Center">

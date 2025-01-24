@@ -34,20 +34,13 @@
                 Margin="0,0,5,0"
                 Command="{Binding ManageTasksCommand}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Zarządzaj zadaniami" VerticalAlignment="Center"/>
-                    <iconPacks:PackIconVaadinIcons Kind="Tasks" Width="30" Height="30" Margin="10,0,0,0"    />
-                </StackPanel>
-            </Button>
-
-            <Button 
-                Style="{StaticResource BigButtonStyle}"
-                Command="{Binding WorkCommand}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Pracuj" VerticalAlignment="Center"/>
+                    <iconPacks:PackIconVaadinIcons Kind="Tasks" Width="30" Height="30" Margin="0,0,10,0"    />
+                    <TextBlock Text="Zarządzaj zadaniami/Pracuj" VerticalAlignment="Center"/>
                     <iconPacks:PackIconMaterialDesign Kind="WorkSharp" Width="30" Height="30" Margin="10,0,0,0"    />
+
                 </StackPanel>
             </Button>
-
+            
         </DockPanel>
         
     </Grid>

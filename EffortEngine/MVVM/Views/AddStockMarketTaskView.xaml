@@ -37,17 +37,14 @@
           Height="auto"
           Foreground="Black"   
           Style="{StaticResource TextBlockStyle}"/>
-            <TextBlock 
-          Text="{Binding SelectedProgram}"
-          Style="{StaticResource TextBlockStyle}"/>
 
             <TextBox 
-             x:Name="featureNameTextBox"
+             x:Name="stockMarketTaskNameTextBox"
              FontSize="16"
              VerticalContentAlignment="Center"
              Width="485"
              Style="{StaticResource TextBoxStyle}"
-             Text="{Binding FeatureName}"/>
+             Text="{Binding StockMarketTaskName}"/>
 
         </DockPanel>
 
@@ -59,19 +56,16 @@
           FontSize="22"
              Foreground="black"
           Style="{StaticResource TextBlockStyle}"/>
-            <TextBlock 
-          Text="{Binding FeatureDescription}"
-          Style="{StaticResource TextBlockStyle}"/>
 
             <TextBox 
-             x:Name="featureDescriptionTextBox"
+             x:Name="stockMarketTaskDescriptionTextBox"
              Width="500"
              FontSize="14"
              MinHeight="100"
              Height="auto"
              TextWrapping="Wrap"
              Style="{StaticResource TextBoxStyle}"
-             Text="{Binding FeatureTitle}"/>
+             Text="{Binding StockMarketTaskDescription}"/>
 
         </DockPanel>
 
@@ -83,9 +77,6 @@
           Foreground="Black"
           FontSize="22"
           Style="{StaticResource TextBlockStyle}"/>
-            <TextBlock 
-          Text="{Binding FeatureDescription}"
-          Style="{StaticResource TextBlockStyle}"/>
 
             <ComboBox 
              Width="150"
@@ -95,7 +86,8 @@
              Controls:ControlsHelper.FocusBorderBrush="Black"
              Controls:ControlsHelper.CornerRadius="7" 
              Controls:ControlsHelper.MouseOverBorderBrush="Gray"
-             SelectedItem="{Binding SelectedPriority, Mode=TwoWay}"
+               SelectedValue="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}"
+             SelectedValuePath="Content"
              FontFamily="Calibri"
              FontWeight="DemiBold"
              HorizontalContentAlignment="Center">
@@ -107,7 +99,7 @@
 
             <Button
              Style="{StaticResource BigButtonStyle}"
-             Command="{Binding AddProgrammingTaskCommand}"
+             Command="{Binding AddStockMarketTaskCommand}"
              Width="100"
              Margin="50,0,0,0">
                 <iconPacks:PackIconMaterial Kind="ContentSave" Width="30" Height="30"/>

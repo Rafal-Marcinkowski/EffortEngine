@@ -27,6 +27,8 @@ public partial class App : PrismApplication
         regionManager.RequestNavigate("InformationBarRegion", nameof(InformationBarView));
     }
 
+
+
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.RegisterInstance<IConfiguration>(new ConfigurationBuilder()
@@ -35,7 +37,6 @@ public partial class App : PrismApplication
 
         containerRegistry.RegisterInstance<ILogger>(Log.Logger);
 
-        containerRegistry.RegisterForNavigation<WorkView>();
         containerRegistry.RegisterForNavigation<ManageTasksView>();
         containerRegistry.RegisterForNavigation<AddProgrammingTaskView>();
         containerRegistry.RegisterForNavigation<AddModuleView>();
@@ -66,8 +67,9 @@ public partial class App : PrismApplication
         containerRegistry.Register<AddProgramProjectViewModel>();
         containerRegistry.Register<AddModuleViewModel>();
         containerRegistry.Register<AddTaskViewModel>();
-        containerRegistry.Register<WorkViewModel>();
         containerRegistry.RegisterSingleton<ManageTasksViewModel>();
+        containerRegistry.RegisterSingleton<ViewManager>();
+        containerRegistry.RegisterSingleton<WorkManager>();
         containerRegistry.RegisterSingleton<ISQLDataAccess, SQLDataAccess>();
         containerRegistry.RegisterSingleton<IProgramData, ProgramData>();
         containerRegistry.RegisterSingleton<IPomodoroSessionData, PomodoroSessionData>();

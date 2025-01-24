@@ -10,6 +10,16 @@ public class ManageTasksViewModel : BindableBase
     private readonly ITaskData taskData;
     private readonly IRegionManager regionManager;
     private readonly IProgramData programData;
+    private readonly WorkManager workManager;
+
+    private Program selectedProgram;
+    public Program SelectedProgram
+    {
+        get => selectedProgram;
+        set => SetProperty(ref selectedProgram, value);
+    }
+
+
     private TaskBase selectedTask;
     public TaskBase SelectedTask
     {
@@ -31,11 +41,12 @@ public class ManageTasksViewModel : BindableBase
         set => SetProperty(ref taskList, value);
     }
 
-    public ManageTasksViewModel(ITaskData taskData, IRegionManager regionManager, IProgramData programData)
+    public ManageTasksViewModel(ITaskData taskData, IRegionManager regionManager, IProgramData programData, WorkManager workManager)
     {
         this.taskData = taskData;
         this.regionManager = regionManager;
         this.programData = programData;
+        this.workManager = workManager;
         ShowAllTasksCommand.ExecuteAsync(this);
     }
 
@@ -116,5 +127,20 @@ public class ManageTasksViewModel : BindableBase
         TaskList = new ObservableCollection<TaskBase>(tasks.Where(q => q.Type == TaskBase.TaskType.LifeTask));
 
         regionManager.RequestNavigate("TaskTableRegion", nameof(LifeTasksView));
+    });
+
+
+    public IAsyncCommand StartWorkCommand => new AsyncDelegateCommand(async () =>
+    {
+        if (SelectedTask is not null || SelectedProgram is not null)
+        {
+            if (!workManager.IsSessionAlive)
+            {
+
+            }
+        }
+
+
+
     });
 }

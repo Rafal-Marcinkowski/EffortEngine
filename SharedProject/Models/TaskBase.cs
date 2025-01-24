@@ -34,9 +34,35 @@ public class TaskBase : BindableBase
     public string? Note { get; set; }
     public int? ProgramId { get; set; }
 
-    public string StatusString => Status.ToString();
+    public string StatusString
+    {
+        get
+        {
+            return Status switch
+            {
+                (TaskStatus)0 => "Dodane",
+                (TaskStatus)1 => "W trakcie",
+                (TaskStatus)2 => "Zakończone",
+                (TaskStatus)3 => "Wstrzymane",
+            };
+        }
+    }
 
-    public string TypeString => Type.ToString();
+    public string TypeString
+    {
+        get
+        {
+            return Type switch
+            {
+                (TaskType)0 => "Moduł",
+                (TaskType)1 => "Funkcja",
+                (TaskType)2 => "Bug",
+                (TaskType)3 => "Życie",
+                (TaskType)4 => "Giełda",
+                (TaskType)5 => "System",
+            };
+        }
+    }
 
     public string PriorityString
     {

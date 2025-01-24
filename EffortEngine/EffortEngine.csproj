@@ -35,4 +35,8 @@
     <ProjectReference Include="..\ValidationComponent\ValidationComponent.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>
