@@ -20,13 +20,6 @@ public class MainWindowViewModel(IRegionManager regionManager) : BindableBase
         regionManager.RequestNavigate("MainRegion", nameof(ManageTasksView));
     });
 
-    public ICommand WorkCommand => new DelegateCommand(() =>
-    {
-        var region = regionManager.Regions["MainRegion"];
-        region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(WorkView));
-    });
-
     public ICommand MainMenuCommand => new DelegateCommand(() =>
     {
         var region = regionManager.Regions["MainRegion"];

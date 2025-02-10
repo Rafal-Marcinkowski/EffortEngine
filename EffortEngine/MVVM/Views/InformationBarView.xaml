@@ -12,9 +12,62 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid>
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Grid.ColumnSpan="1"
+            Text="{Binding CurrentTaskText}" 
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            FontSize="16"
+            Foreground="Black"
+            FontFamily="Calibri"
+            FontWeight="DemiBold"/>
+
+        <TextBlock 
+            Grid.Column="0"
+            Text="{Binding TimerDisplay}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="22"
+            Foreground="Black"
+            FontFamily="Calibri"
+            FontWeight="DemiBold"/>
+
+        <Button 
+            Grid.Column="1"
+            Height="75"
+            VerticalAlignment="Center"
+            Command="{Binding StartPauseCommand}"
+            Margin="5">
+            
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="{Binding StartPauseIcon}" Width="20" Height="20"/>
+                <TextBlock Text="{Binding StartPauseText}" Margin="5,0,0,0"/>
+            </StackPanel>
+            
+        </Button>
+
+        <Button 
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            Command="{Binding ResetCommand}"
+            Height="75"
+            Margin="5">
+            
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="Refresh" Width="20" Height="20"/>
+                <TextBlock Text="Reset" Margin="5,0,0,0"/>
+            </StackPanel>
+            
+        </Button>
     </Grid>
-    
+
 </mah:MetroContentControl>
