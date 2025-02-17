@@ -1,6 +1,6 @@
 ﻿namespace EffortEngine;
 
-public class ViewManager
+public class ViewManager : BindableBase
 {
 
 }

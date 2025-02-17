@@ -35,6 +35,22 @@
                 </Style.Triggers>
             </Style>
 
+            <Style x:Key="SmallButtonStyle" BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="Button">
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="FontFamily" Value="Calibri"/>
+                <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="Black" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="FontWeight" Value="DemiBold" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#1976D2"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#1565C0"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <Style x:Key="TextBoxStyle" BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="TextBox">
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="Padding" Value="10"/>
