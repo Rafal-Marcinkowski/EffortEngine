@@ -1,4 +1,4 @@
-﻿namespace EffortEngine;
+﻿namespace EffortEngine.LocalLibrary;
 
 public class ViewManager : BindableBase
 {

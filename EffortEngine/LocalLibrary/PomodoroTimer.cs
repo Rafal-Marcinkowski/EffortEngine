@@ -1,30 +1,31 @@
 ﻿using MahApps.Metro.IconPacks;
 using System.Windows.Threading;
 
-namespace EffortEngine;
+namespace EffortEngine.LocalLibrary;
 
-public class WorkManager : BindableBase
+public class PomodoroTimer : BindableBase, IDisposable
 {
-    public WorkManager()
+    private DispatcherTimer timer;
+    private int timeRemaining;
+    private int roundsCompleted = 0;
+    private bool isBreak = false;
+
+    private int totalWork = 0;
+
+    public decimal TotalWorkMinutes => Math.Round(totalWork / 60m, 2);
+
+    public IAsyncCommand StartPauseCommand { get; }
+    public IAsyncCommand StopCommand { get; }
+    public IAsyncCommand FinishSessionCommand { get; }
+    public IAsyncCommand ResetCommand { get; }
+
+    public PomodoroTimer()
     {
         StartPauseCommand = new AsyncDelegateCommand(OnStartPause);
         StopCommand = new AsyncDelegateCommand(OnStop);
         ResetCommand = new AsyncDelegateCommand(OnReset);
 
         InitializeTimer();
-
-    }
-
-    public bool IsSessionAlive = false;
-
-    private DispatcherTimer timer;
-    private int timeRemaining;
-    private int roundsCompleted = 0;
-    private bool isBreak = true;
-
-    public async Task OnNewsTaskStarted(string taskName)
-    {
-        CurrentTaskText = "Praca nad: " + taskName;
     }
 
     private string currentTaskText = string.Empty;
@@ -63,14 +64,13 @@ public class WorkManager : BindableBase
     }
 
     private bool isRunning = false;
-
     public bool IsRunning
     {
         get => isRunning;
         set => SetProperty(ref isRunning, value);
     }
 
-    private async void InitializeTimer()
+    private void InitializeTimer()
     {
         timer = new DispatcherTimer
         {
@@ -87,11 +87,16 @@ public class WorkManager : BindableBase
     {
         if (!String.IsNullOrEmpty(CurrentTaskText))
         {
+            if (timeRemaining == 0)
+            {
+                timeRemaining = 25 * 60;
+                isBreak = false;
+            }
+
             if (IsRunning)
             {
                 timer.Stop();
             }
-
             else
             {
                 timer.Start();
@@ -126,14 +131,25 @@ public class WorkManager : BindableBase
         timeRemaining = 25 * 60;
         roundsCompleted = 0;
         isBreak = false;
+        totalWork = 0;
         TimerDisplay = $"{(isBreak ? "Przerwa" : "Praca")}: {TimeSpan.FromSeconds(timeRemaining):mm\\:ss}";
     }
 
     private async void OnTimerTick(object sender, EventArgs e)
     {
-        timeRemaining--;
+        if (timeRemaining > 0)
+        {
+            timeRemaining--;
 
-        if (timeRemaining <= 0)
+            if (!isBreak && IsRunning)
+            {
+                totalWork++;
+            }
+
+            TimerDisplay = $"{(isBreak ? "Przerwa" : "Praca")}: {TimeSpan.FromSeconds(timeRemaining):mm\\:ss}";
+        }
+
+        if (timeRemaining == 0)
         {
             isBreak = !isBreak;
             timeRemaining = isBreak ? 5 * 60 : 25 * 60;
@@ -145,18 +161,17 @@ public class WorkManager : BindableBase
 
                 if (roundsCompleted >= 4)
                 {
-                    OnStop();
-                    ResetTimer();
+                    await OnStop();
+                    await ResetTimer();
                     return;
                 }
             }
         }
-
-        TimerDisplay = $"{(isBreak ? "Przerwa" : "Praca")}: {TimeSpan.FromSeconds(timeRemaining):mm\\:ss}";
     }
 
-    public IAsyncCommand StartPauseCommand { get; }
-    public IAsyncCommand StopCommand { get; }
-    public IAsyncCommand FinishSessionCommand { get; }
-    public IAsyncCommand ResetCommand { get; }
+    void IDisposable.Dispose()
+    {
+        timer.Tick -= OnTimerTick;
+        timer.Stop();
+    }
 }

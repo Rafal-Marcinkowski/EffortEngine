@@ -1,18 +1,10 @@
-﻿using SharedProject.Events;
+﻿using EffortEngine.LocalLibrary;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class InformationBarViewModel : BindableBase
+public class InformationBarViewModel(WorkManager workManager) : BindableBase
 {
-    private readonly IEventAggregator eventAggregator;
-    public WorkManager WorkManager { get; set; }
-
-    public InformationBarViewModel(IEventAggregator eventAggregator, WorkManager workManager)
-    {
-        this.eventAggregator = eventAggregator;
-        this.WorkManager = workManager;
-        this.eventAggregator.GetEvent<StartWorkEvent>().Subscribe(async taskName => await WorkManager.OnNewsTaskStarted(taskName));
-    }
+    public WorkManager WorkManager { get; set; } = workManager;
 }
 
 

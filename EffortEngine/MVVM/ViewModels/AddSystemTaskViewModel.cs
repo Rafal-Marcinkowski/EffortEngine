@@ -53,7 +53,7 @@ public class AddSystemTaskViewModel : BindableBase
                 LastUpdated = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute),
                 Status = TaskBase.TaskStatus.NotStarted,
                 Type = TaskBase.TaskType.SystemTask,
-                WorkTime = 0,
+                TotalWorkTime = 0,
             };
 
             await taskData.InsertTaskAsync(task);

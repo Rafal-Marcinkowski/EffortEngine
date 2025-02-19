@@ -21,7 +21,7 @@
 
         <TextBlock 
 
-            Text="{Binding WorkManager.CurrentTaskText}" 
+            Text="{Binding  WorkManager.PomodoroTimer.CurrentTaskText}" 
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             FontSize="16"
@@ -47,13 +47,13 @@
                          Foreground="Black"
                          FontFamily="Calibri"
                          FontWeight="DemiBold"
-            Text="{Binding WorkManager.RoundCounter}"/>
+            Text="{Binding WorkManager.PomodoroTimer.RoundCounter}"/>
             </Border>
             
             <Border BorderBrush="DimGray" BorderThickness="3" Grid.Column="1" Margin="0"
                     VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock 
-            Text="{Binding WorkManager.TimerDisplay}"
+            Text="{Binding  WorkManager.PomodoroTimer.TimerDisplay}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="34"
@@ -70,12 +70,12 @@
             Grid.Column="2"
             VerticalAlignment="Center"
             Style="{StaticResource SmallButtonStyle}"
-            Command="{Binding WorkManager.StartPauseCommand}"
+            Command="{Binding  WorkManager.PomodoroTimer.StartPauseCommand}"
             >
             
             <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="{Binding WorkManager.StartPauseIcon}" Width="25" Height="25"/>
-                <TextBlock Text="{Binding WorkManager.StartPauseText}" Margin="5,4,0,0"
+                    <iconPacks:PackIconMaterial Kind="{Binding  WorkManager.PomodoroTimer.StartPauseIcon}" Width="25" Height="25"/>
+                    <TextBlock Text="{Binding  WorkManager.PomodoroTimer.StartPauseText}" Margin="5,4,0,0"
                            FontFamily="Calibri"
                            FontWeight="DemiBold"
                            FontSize="14"/>
@@ -84,7 +84,7 @@
         </Button>
             
         <Button 
-            Command="{Binding WorkManager.FinishSessionCommand}"
+            Command="{Binding  WorkManager.SessionManager.FinishSessionCommand}"
             Height="auto"
             VerticalAlignment="Center"
             Grid.Column="3"

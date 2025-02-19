@@ -77,7 +77,7 @@ public class AddBugViewModel : BindableBase
                 LastUpdated = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute),
                 Status = TaskBase.TaskStatus.NotStarted,
                 Type = TaskBase.TaskType.Bug,
-                WorkTime = 0,
+                TotalWorkTime = 0,
                 Priority = BugPriority switch
                 {
                     "Niski" => 0,

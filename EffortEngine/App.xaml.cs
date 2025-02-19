@@ -1,5 +1,6 @@
 ﻿using DataAccess.Data;
 using DataAccess.DBAccess;
+using EffortEngine.LocalLibrary;
 using EffortEngine.MVVM.ViewModels;
 using EffortEngine.MVVM.Views;
 using Microsoft.Extensions.Configuration;
@@ -70,6 +71,9 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<ManageTasksViewModel>();
         containerRegistry.RegisterSingleton<ViewManager>();
         containerRegistry.RegisterSingleton<WorkManager>();
+        containerRegistry.RegisterSingleton<PomodoroTimer>();
+        containerRegistry.RegisterSingleton<TaskManager>();
+        containerRegistry.RegisterSingleton<SessionManager>();
         containerRegistry.RegisterSingleton<ISQLDataAccess, SQLDataAccess>();
         containerRegistry.RegisterSingleton<IProgramData, ProgramData>();
         containerRegistry.RegisterSingleton<IPomodoroSessionData, PomodoroSessionData>();

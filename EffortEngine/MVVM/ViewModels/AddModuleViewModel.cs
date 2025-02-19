@@ -76,7 +76,7 @@ public class AddModuleViewModel : BindableBase
                 LastUpdated = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute),
                 Status = TaskBase.TaskStatus.NotStarted,
                 Type = TaskBase.TaskType.Module,
-                WorkTime = 0,
+                TotalWorkTime = 0,
                 Priority = ModulePriority switch
                 {
                     "Niski" => 0,

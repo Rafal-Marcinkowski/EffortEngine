@@ -1,4 +1,5 @@
 ﻿using DataAccess.Data;
+using EffortEngine.LocalLibrary;
 using EffortEngine.MVVM.Views;
 using SharedProject.Events;
 using SharedProject.Models;
@@ -83,7 +84,7 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     public IAsyncCommand ShowProgramsCommand => new AsyncDelegateCommand(async () =>
     {
         var programs = await programData.GetAllProgramsAsync();
-        ProgramList = new ObservableCollection<Program>(programs);
+        ProgramList = [.. programs];
         var allTasks = await taskData.GetAllTasksAsync();
 
         foreach (var program in programs)
@@ -115,7 +116,7 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     public IAsyncCommand ShowAllTasksCommand => new AsyncDelegateCommand(async () =>
     {
         var tasks = await taskData.GetAllTasksAsync();
-        TaskList = new ObservableCollection<TaskBase>(tasks);
+        TaskList = [.. tasks];
 
         regionManager.RequestNavigate("TaskTableRegion", nameof(AllTasksTableView));
     });
@@ -123,7 +124,7 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     public IAsyncCommand ShowAllProgrammingTasksCommand => new AsyncDelegateCommand(async () =>
     {
         var tasks = await taskData.GetAllTasksAsync();
-        TaskList = new ObservableCollection<TaskBase>(tasks.Where(q => q.ProgramId != null));
+        TaskList = [.. tasks.Where(q => q.ProgramId != null)];
 
         regionManager.RequestNavigate("TaskTableRegion", nameof(AllProgrammingTasksView));
     });
@@ -131,14 +132,14 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     public IAsyncCommand ShowSystemTasksCommand => new AsyncDelegateCommand(async () =>
     {
         var tasks = await taskData.GetAllTasksAsync();
-        TaskList = new ObservableCollection<TaskBase>(tasks.Where(q => q.Type == TaskBase.TaskType.SystemTask));
+        TaskList = [.. tasks.Where(q => q.Type == TaskBase.TaskType.SystemTask)];
 
         regionManager.RequestNavigate("TaskTableRegion", nameof(SystemTasksView));
     });
     public IAsyncCommand ShowStockMarketTasksView => new AsyncDelegateCommand(async () =>
     {
         var tasks = await taskData.GetAllTasksAsync();
-        TaskList = new ObservableCollection<TaskBase>(tasks.Where(q => q.Type == TaskBase.TaskType.StockMarketTask));
+        TaskList = [.. tasks.Where(q => q.Type == TaskBase.TaskType.StockMarketTask)];
 
         regionManager.RequestNavigate("TaskTableRegion", nameof(StockMarketTasksView));
     });
@@ -146,7 +147,7 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     public IAsyncCommand ShowLifeTasksView => new AsyncDelegateCommand(async () =>
     {
         var tasks = await taskData.GetAllTasksAsync();
-        TaskList = new ObservableCollection<TaskBase>(tasks.Where(q => q.Type == TaskBase.TaskType.LifeTask));
+        TaskList = [.. tasks.Where(q => q.Type == TaskBase.TaskType.LifeTask)];
 
         regionManager.RequestNavigate("TaskTableRegion", nameof(LifeTasksView));
     });
@@ -156,15 +157,13 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     {
         if (!String.IsNullOrEmpty(SelectedTaskName))
         {
-            if (!workManager.IsSessionAlive)
-            {
-                var dialog = new ConfirmationDialog { DialogText = $"Rozpocząć pracę nad: {SelectedTaskName}?" };
-                dialog.ShowDialog();
 
-                if (dialog.Result == true)
-                {
-                    eventAggregator.GetEvent<StartWorkEvent>().Publish(SelectedTaskName);
-                }
+            var dialog = new ConfirmationDialog { DialogText = $"Rozpocząć pracę nad: {SelectedTaskName}?" };
+            dialog.ShowDialog();
+
+            if (dialog.Result == true)
+            {
+                eventAggregator.GetEvent<StartWorkEvent>().Publish(SelectedTaskName);
             }
         }
     });

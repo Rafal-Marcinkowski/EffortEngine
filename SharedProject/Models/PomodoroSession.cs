@@ -21,4 +21,5 @@ public class PomodoroSession
     public SessionStatus Status { get; set; }
     public int? ProgramId { get; set; }
     public List<TaskBase> Tasks { get; set; } = [];
+    public List<Program> Programs { get; set; } = [];
 }
