@@ -55,4 +55,12 @@ public class TaskData(ISQLDataAccess dbAccess) : ITaskData
         string sql = "DELETE FROM Tasks WHERE Id = @Id";
         await dbAccess.SaveDataWithQueryAsync(sql, new { Id = id });
     }
+
+    public async Task<int?> GetTaskIdAsync(string name)
+    {
+        string sql = "SELECT Id FROM Tasks WHERE Name = @Name";
+        var result = await dbAccess.LoadDataWithQueryAsync<int>(sql, new { Name = name });
+
+        return result.FirstOrDefault();
+    }
 }

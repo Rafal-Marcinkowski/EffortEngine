@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.IconPacks;
+using SharedProject.Events;
 using System.Windows.Threading;
 
 namespace EffortEngine.LocalLibrary;
@@ -10,22 +11,28 @@ public class PomodoroTimer : BindableBase, IDisposable
     private int roundsCompleted = 0;
     private bool isBreak = false;
 
-    private int totalWork = 0;
+    private static int totalWork = 0;
 
-    public decimal TotalWorkMinutes => Math.Round(totalWork / 60m, 2);
+    public static decimal TotalWorkMinutes => Math.Round(totalWork / 60m, 2);
+
+    public static void ResetWorkTime() => totalWork = 0;
 
     public IAsyncCommand StartPauseCommand { get; }
     public IAsyncCommand StopCommand { get; }
     public IAsyncCommand FinishSessionCommand { get; }
     public IAsyncCommand ResetCommand { get; }
 
-    public PomodoroTimer()
+    public PomodoroTimer(IEventAggregator eventAggregator)
     {
         StartPauseCommand = new AsyncDelegateCommand(OnStartPause);
         StopCommand = new AsyncDelegateCommand(OnStop);
         ResetCommand = new AsyncDelegateCommand(OnReset);
 
+
         InitializeTimer();
+
+        this.eventAggregator = eventAggregator;
+        this.eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await OnReset());
     }
 
     private string currentTaskText = string.Empty;
@@ -64,6 +71,8 @@ public class PomodoroTimer : BindableBase, IDisposable
     }
 
     private bool isRunning = false;
+    private readonly IEventAggregator eventAggregator;
+
     public bool IsRunning
     {
         get => isRunning;

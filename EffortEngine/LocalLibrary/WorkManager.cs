@@ -32,6 +32,4 @@ public class WorkManager : BindableBase
         await taskManager.EvaluateTask(taskName);
         await sessionManager.AddTaskToSession(taskManager.CurrentTask is null ? taskManager.CurrentProgram : taskManager.CurrentTask);
     }
-
-
 }
