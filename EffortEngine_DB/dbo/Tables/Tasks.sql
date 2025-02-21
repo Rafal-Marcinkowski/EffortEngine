@@ -10,7 +10,7 @@
     [CompletionDate] DATETIME NULL,
     [Status] INT NOT NULL,
     [Type] INT NOT NULL,
-    [WorkTime] DECIMAL(10, 2) NOT NULL,
+    [TotalWorkTime] DECIMAL(10, 2) NOT NULL,
     [Note] NVARCHAR(250) NULL,
     [ProgramId] INT NULL,
     FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Programs]([Id])

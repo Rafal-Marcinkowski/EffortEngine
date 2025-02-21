@@ -6,7 +6,7 @@ public class WorkManager : BindableBase
 {
     public WorkManager(SessionManager sessionManager, IEventAggregator eventAggregator, PomodoroTimer pomodoroTimer, TaskManager taskManager)
     {
-        this.sessionManager = sessionManager;
+        this.SessionManager = sessionManager;
         this.eventAggregator = eventAggregator;
         PomodoroTimer = pomodoroTimer;
         this.taskManager = taskManager;
@@ -17,19 +17,20 @@ public class WorkManager : BindableBase
     public PomodoroTimer PomodoroTimer { get; }
 
     private readonly TaskManager taskManager;
-    private readonly SessionManager sessionManager;
+    public SessionManager SessionManager { get; set; }
     private readonly IEventAggregator eventAggregator;
 
     public async Task OnNewTaskStarted(string taskName)
     {
-        if (!sessionManager.IsSessionAlive)
+        if (!SessionManager.IsSessionAlive)
         {
-            await sessionManager.StartSession();
+            await SessionManager.StartSession();
         }
 
-        ///sprawdzic czy wczesniej nie byl jakis inny task
         PomodoroTimer.CurrentTaskText = "Praca nad: " + taskName;
+        PomodoroTimer.RoundCounter = $"Runda: 1/{SessionManager.PomodoroSession.Rounds}";
+
         await taskManager.EvaluateTask(taskName);
-        await sessionManager.AddTaskToSession(taskManager.CurrentTask is null ? taskManager.CurrentProgram : taskManager.CurrentTask);
+        await SessionManager.AddTaskToSession(taskManager.CurrentTask is null ? taskManager.CurrentProgram : taskManager.CurrentTask);
     }
 }

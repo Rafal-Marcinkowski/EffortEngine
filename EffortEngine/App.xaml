@@ -15,6 +15,15 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Taupe.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <Style x:Key="CenteredTextStyle" TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+            </Style>  
+            
+            <Style x:Key="CenteredHeaderStyle" TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+
             <Style x:Key="BigButtonStyle" BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="Button">
                 <Setter Property="Background" Value="DimGray"/>
                 <Setter Property="BorderBrush" Value="Black"/>

@@ -25,6 +25,7 @@
           SelectionUnit="FullRow">
 
             <DataGrid.Columns>
+                
                 <DataGridTemplateColumn Header="Nazwa" MaxWidth="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -32,18 +33,20 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Bugi" Binding="{Binding Bugs.Count}" />
-                <DataGridTextColumn Header="Funkcje" Binding="{Binding Features.Count}" />
-                <DataGridTextColumn Header="Moduły" Binding="{Binding Modules.Count}" />
+                
+                <DataGridTextColumn Header="Bugi" Binding="{Binding Bugs.Count}"  ElementStyle="{StaticResource CenteredTextStyle}"/>
+                <DataGridTextColumn Header="Funkcje" Binding="{Binding Features.Count}" ElementStyle="{StaticResource CenteredTextStyle}"/>
+                <DataGridTextColumn Header="Moduły" Binding="{Binding Modules.Count}" ElementStyle="{StaticResource CenteredTextStyle}"/>
+
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <iconPacks:PackIconFontAwesome Kind="HourglassHalfRegular" Width="20" Height="20" />
+                            <iconPacks:PackIconGameIcons Kind="SandsOfTime" Width="20" Height="20" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding WorkTime}" />
+                            <TextBlock Text="{Binding TotalWorkTime}" Style="{StaticResource CenteredTextStyle}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -62,19 +62,22 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <iconPacks:PackIconFontAwesome Kind="HourglassHalfRegular" Width="20" Height="20" />
+                            <iconPacks:PackIconGameIcons Kind="SandsOfTime" Width="20" Height="20" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding WorkTime}" />
+                            <TextBlock Text="{Binding TotalWorkTime}" Style="{StaticResource CenteredTextStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <iconPacks:PackIconMaterialDesign Kind="Add" Width="20" Height="20" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Data dodania "/>
+                                <iconPacks:PackIconModern Kind="PageSolidAdd" Width="20" Height="20"/>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>

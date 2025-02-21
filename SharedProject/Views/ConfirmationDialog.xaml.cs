@@ -18,8 +18,8 @@ public partial class ConfirmationDialog
     public ConfirmationDialog()
     {
         InitializeComponent();
-        Top = Application.Current.MainWindow.Top + 400;
-        Left = Application.Current.MainWindow.Left + 700;
+        Top = Application.Current.MainWindow.Top + 150;
+        Left = Application.Current.MainWindow.Left + 174;
         FontSize = 14;
         FontWeight = FontWeights.DemiBold;
         HorizontalAlignment = HorizontalAlignment.Center;

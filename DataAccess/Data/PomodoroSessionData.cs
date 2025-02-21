@@ -24,9 +24,9 @@ public class PomodoroSessionData(ISQLDataAccess dbAccess) : IPomodoroSessionData
     {
         string sql = @"
             INSERT INTO PomodoroSessions 
-            (StartTime, EndTime, WorkTime, BreakTime, Rounds, Status, ProgramId)
+            (StartTime, EndTime, RoundWorkTime, TotalWorkTime, BreakTime, Rounds, Status, ProgramId)
             VALUES 
-            (@StartTime, @EndTime, @WorkTime, @BreakTime, @Rounds, @Status, @ProgramId)";
+            (@StartTime, @EndTime, @RoundWorkTime, @TotalWorkTime, @BreakTime, @Rounds, @Status, @ProgramId)";
         await dbAccess.SaveDataWithQueryAsync(sql, session);
     }
 
@@ -36,7 +36,8 @@ public class PomodoroSessionData(ISQLDataAccess dbAccess) : IPomodoroSessionData
             UPDATE PomodoroSessions
             SET StartTime = @StartTime, 
                 EndTime = @EndTime, 
-                WorkTime = @WorkTime, 
+                RoundWorkTime = @RoundWorkTime, 
+                TotalWorkTime = @TotalWorkTime, 
                 BreakTime = @BreakTime, 
                 Rounds = @Rounds, 
                 Status = @Status,

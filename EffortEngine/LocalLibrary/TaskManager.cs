@@ -10,17 +10,17 @@ public class TaskManager(ITaskData taskData, IProgramData programData) : Bindabl
 
     public async Task EvaluateTask(string taskName)
     {
-        var task = (await taskData.GetAllTasksAsync()).Where(q => q.Name == taskName);
+        var task = (await taskData.GetAllTasksAsync()).FirstOrDefault(q => q.Name == taskName);
 
-        if (task != null)
+        if (task is not null)
         {
-            CurrentTask = task.FirstOrDefault();
+            CurrentTask = task;
             CurrentProgram = null;
         }
 
         else
         {
-            CurrentProgram = (Program)(await programData.GetAllProgramsAsync()).Where(q => q.Name == taskName);
+            CurrentProgram = (await programData.GetAllProgramsAsync()).FirstOrDefault(q => q.Name == taskName);
             CurrentTask = null;
         }
     }

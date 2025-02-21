@@ -1,5 +1,4 @@
 ﻿using DataAccess.Data;
-using EffortEngine.LocalLibrary;
 using EffortEngine.MVVM.Views;
 using SharedProject.Events;
 using SharedProject.Models;
@@ -13,7 +12,6 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     private readonly ITaskData taskData;
     private readonly IRegionManager regionManager;
     private readonly IProgramData programData;
-    private readonly WorkManager workManager;
     private readonly IEventAggregator eventAggregator;
 
     private string SelectedTaskName => SelectedProgram?.Name ?? SelectedTask?.Name ?? string.Empty;
@@ -46,24 +44,50 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
         set => SetProperty(ref taskList, value);
     }
 
-    public ManageTasksViewModel(ITaskData taskData, IRegionManager regionManager, IProgramData programData, WorkManager workManager
+    public ManageTasksViewModel(ITaskData taskData, IRegionManager regionManager, IProgramData programData
         , IEventAggregator eventAggregator)
     {
         this.taskData = taskData;
         this.regionManager = regionManager;
         this.programData = programData;
-        this.workManager = workManager;
+
         this.eventAggregator = eventAggregator;
+        this.eventAggregator.GetEvent<WorkTimeAddedEvent>().Subscribe(async (id) => await RefreshUI(id));
+
         ShowAllTasksCommand.ExecuteAsync(this);
     }
 
-    private async Task SetTaskTableToAllTasksView()
+    private async Task RefreshUI(int id)
     {
-        var tasks = await taskData.GetAllTasksAsync();
-        TaskList = new ObservableCollection<TaskBase>(tasks);
+        //MessageBox.Show(id.ToString());
 
-        regionManager.RequestNavigate("TaskTableRegion", nameof(AllTasksTableView));
+        //var task = TaskList.FirstOrDefault(t => t.Id == id);
+        //if (task != null)
+        //{
+        //    var updatedTask = await taskData.GetTaskAsync(id);
+        //    if (updatedTask != null)
+        //    {
+        //        TaskList.Remove(task);
+        //        TaskList.Add(updatedTask);
+        //        RaisePropertyChanged(nameof(TaskList));
+        //    }
+        //    return;
+        //}
+
+        //var program = ProgramList.FirstOrDefault(p => p.Id == id);
+        //if (program != null)
+        //{
+        //    var updatedProgram = await programData.GetProgramAsync(id);
+        //    if (updatedProgram != null)
+        //    {
+        //        ProgramList.Remove(program);
+        //        ProgramList.Add(updatedProgram);
+        //        RaisePropertyChanged(nameof(ProgramList));
+        //    }
+        //}
     }
+
+
 
     public void OnNavigatedTo(NavigationContext navigationContext)
     {

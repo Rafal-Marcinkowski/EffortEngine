@@ -11,8 +11,11 @@ public class PomodoroTimer : BindableBase, IDisposable
     private int roundsCompleted = 0;
     private bool isBreak = false;
 
-    private static int totalWork = 0;
+    private static int activeWorkTime = 0;
+    public static decimal ActiveWorkMinutes => Math.Round(activeWorkTime / 60m, 2);
 
+
+    private static int totalWork = 0;
     public static decimal TotalWorkMinutes => Math.Round(totalWork / 60m, 2);
 
     public static void ResetWorkTime() => totalWork = 0;
@@ -25,14 +28,12 @@ public class PomodoroTimer : BindableBase, IDisposable
     public PomodoroTimer(IEventAggregator eventAggregator)
     {
         StartPauseCommand = new AsyncDelegateCommand(OnStartPause);
-        StopCommand = new AsyncDelegateCommand(OnStop);
-        ResetCommand = new AsyncDelegateCommand(OnReset);
-
+        ResetCommand = new AsyncDelegateCommand(Reset);
 
         InitializeTimer();
 
         this.eventAggregator = eventAggregator;
-        this.eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await OnReset());
+        this.eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await HandleSessionFinished());
     }
 
     private string currentTaskText = string.Empty;
@@ -118,30 +119,26 @@ public class PomodoroTimer : BindableBase, IDisposable
         }
     }
 
-    private async Task OnStop()
+    private async Task HandleSessionFinished()
+    {
+        await Reset();
+        CurrentTaskText = string.Empty;
+        RoundCounter = "Brak sesji";
+    }
+
+    private async Task Reset()
     {
         timer.Stop();
         IsRunning = false;
         StartPauseText = "Start";
         StartPauseIcon = PackIconMaterialKind.Play;
-    }
-
-    private async Task OnReset()
-    {
-        timer.Stop();
-        ResetTimer();
-        IsRunning = false;
-        StartPauseText = "Start";
-        StartPauseIcon = PackIconMaterialKind.Play;
-    }
-
-    private async Task ResetTimer()
-    {
         timeRemaining = 25 * 60;
         roundsCompleted = 0;
+        RoundCounter = $"Runda {roundsCompleted + 1}/4";
         isBreak = false;
         totalWork = 0;
-        TimerDisplay = $"{(isBreak ? "Przerwa" : "Praca")}: {TimeSpan.FromSeconds(timeRemaining):mm\\:ss}";
+        activeWorkTime = 0;
+        TimerDisplay = $"00:00";
     }
 
     private async void OnTimerTick(object sender, EventArgs e)
@@ -153,6 +150,7 @@ public class PomodoroTimer : BindableBase, IDisposable
             if (!isBreak && IsRunning)
             {
                 totalWork++;
+                activeWorkTime++;
             }
 
             TimerDisplay = $"{(isBreak ? "Przerwa" : "Praca")}: {TimeSpan.FromSeconds(timeRemaining):mm\\:ss}";
@@ -163,15 +161,22 @@ public class PomodoroTimer : BindableBase, IDisposable
             isBreak = !isBreak;
             timeRemaining = isBreak ? 5 * 60 : 25 * 60;
 
-            if (!isBreak)
+            if (isBreak)
             {
+                eventAggregator.GetEvent<BreakStartedEvent>().Publish();
+            }
+
+            else
+            {
+                eventAggregator.GetEvent<BreakEndedEvent>().Publish();
                 roundsCompleted++;
                 RoundCounter = $"Runda {roundsCompleted + 1}/4";
 
                 if (roundsCompleted >= 4)
                 {
-                    await OnStop();
-                    await ResetTimer();
+                    eventAggregator.GetEvent<SessionElapsedEvent>().Publish();
+                    await Task.Delay(250);
+                    await Reset();
                     return;
                 }
             }

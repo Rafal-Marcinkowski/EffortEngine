@@ -15,7 +15,8 @@ public class PomodoroSession
     public int Id { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
-    public int WorkTime { get; set; }
+    public decimal TotalWorkTime { get; set; }
+    public decimal RoundWorkTime { get; set; }
     public int BreakTime { get; set; }
     public int Rounds { get; set; }
     public SessionStatus Status { get; set; }

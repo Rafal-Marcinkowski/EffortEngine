@@ -37,12 +37,12 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <iconPacks:PackIconFontAwesome Kind="HourglassHalfRegular" Width="20" Height="20" />
+                            <iconPacks:PackIconGameIcons Kind="SandsOfTime" Width="20" Height="20" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding WorkTime}" />
+                            <TextBlock Text="{Binding TotalWorkTime}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
