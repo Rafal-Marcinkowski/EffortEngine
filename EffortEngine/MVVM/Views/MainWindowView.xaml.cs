@@ -18,12 +18,12 @@ public partial class MainWindowView
 
     private void OnBreakStarted()
     {
-        MinimizeWindow();
+        FocusWindow();
     }
 
     private void OnBreakEnded()
     {
-        FocusWindow();
+        MinimizeWindow();
     }
 
     private void MinimizeWindow()

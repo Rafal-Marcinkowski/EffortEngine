@@ -11,14 +11,26 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="LocalLibrary\Miscellaneous\breakend.mp3" />
+    <None Remove="LocalLibrary\Miscellaneous\breakstart.mp3" />
     <None Remove="LocalLibrary\Miscellaneous\EngineIcon.ico" />
+    <None Remove="LocalLibrary\Miscellaneous\sessioncompleted.mp3" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="LocalLibrary\Miscellaneous\breakend.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LocalLibrary\Miscellaneous\breakstart.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="LocalLibrary\Miscellaneous\EngineIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LocalLibrary\Miscellaneous\sessioncompleted.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

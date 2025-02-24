@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.IconPacks;
 using SharedProject.Events;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace EffortEngine.LocalLibrary;
@@ -10,6 +11,13 @@ public class PomodoroTimer : BindableBase, IDisposable
     private int timeRemaining;
     private int roundsCompleted = 0;
     private bool isBreak = false;
+    private MediaPlayer soundPlayer = new();
+
+    private async Task PlaySoundAsync(string filePath)
+    {
+        soundPlayer.Open(new Uri(filePath, UriKind.Absolute));
+        soundPlayer.Play();
+    }
 
     private static int activeWorkTime = 0;
     public static decimal ActiveWorkMinutes => Math.Round(activeWorkTime / 60m, 2);
@@ -164,17 +172,25 @@ public class PomodoroTimer : BindableBase, IDisposable
             if (isBreak)
             {
                 eventAggregator.GetEvent<BreakStartedEvent>().Publish();
+                PlaySoundAsync("D:\\Microsoft Visual Studio 2022\\ImportantProjects\\EffortEngine\\EffortEngine\\LocalLibrary\\Miscellaneous\\breakstart.mp3");
             }
 
             else
             {
                 eventAggregator.GetEvent<BreakEndedEvent>().Publish();
                 roundsCompleted++;
+
+                if (roundsCompleted < 4)
+                {
+                    PlaySoundAsync("D:\\Microsoft Visual Studio 2022\\ImportantProjects\\EffortEngine\\EffortEngine\\LocalLibrary\\Miscellaneous\\breakend.mp3");
+                }
+
                 RoundCounter = $"Runda {roundsCompleted + 1}/4";
 
                 if (roundsCompleted >= 4)
                 {
                     eventAggregator.GetEvent<SessionElapsedEvent>().Publish();
+                    PlaySoundAsync("D:\\Microsoft Visual Studio 2022\\ImportantProjects\\EffortEngine\\EffortEngine\\LocalLibrary\\Miscellaneous\\sessioncompleted.mp3");
                     await Task.Delay(250);
                     await Reset();
                     return;
