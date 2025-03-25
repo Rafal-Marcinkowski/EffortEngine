@@ -15,142 +15,114 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid Margin="10">
-        
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.6*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-
+        <DockPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock 
             Text="Program: " 
             Foreground="Black"
             FontSize="26"
             Style="{StaticResource TextBlockStyle}"
-                Height="auto"/>
-
+            Height="auto"/>
             <TextBlock 
             Text="{Binding SelectedProgram.Name}"
             Foreground="Black"
             Style="{StaticResource TextBlockStyle}"
-                Height="auto"
-               />
-
+            Height="auto"/>
         </DockPanel>
 
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            
+        <ListBox 
+        x:Name="programsListBox"
+        BorderBrush="DimGray"
+        BorderThickness="2"
+        Width="250"
+        Height="auto"
+        ItemsSource="{Binding Programs}"
+        IsHitTestVisible="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <prism:InvokeCommandAction 
+                    Command="{Binding ConfirmProgramSelectionCommand}"
+                    CommandParameter="{Binding ElementName=programsListBox, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock 
+                    Text="{Binding Name}" 
+                    FontSize="12"
+                    Style="{StaticResource TextBlockStyle}"
+                    HorizontalAlignment="Left"
+                    Margin="5"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <Button 
-            Command="{Binding ConfirmProgramSelectionCommand}"
-            CommandParameter="{Binding ElementName=programsListBox, Path=SelectedItem}"
-            Grid.Row="1" Style="{StaticResource BigButtonStyle}" Width="auto" Height="auto">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-
-                <TextBlock 
-                    Text="Wybierz program" 
-                    FontSize="22"
-                    Height="35"
-                    Foreground="Black"
-                    Style="{StaticResource TextBlockStyle}"/>
-
-                <ListBox x:Name="programsListBox" BorderBrush="DimGray"
-                         BorderThickness="2" Width="200" Height="180"
-                         ItemsSource="{Binding Programs}"
-                         IsHitTestVisible="True">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <prism:InvokeCommandAction Command="{Binding ConfirmProgramSelectionCommand}"
-                            CommandParameter="{Binding ElementName=programsListBox, Path=SelectedItem}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock 
-                                Text="{Binding Name}" 
-                                Grid.Column="0"
-                                FontSize="12"
-                                Style="{StaticResource TextBlockStyle}"
-                                    HorizontalAlignment="Left"
-                                    Height="auto"
-                                    Margin="5"/>
-
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
-            </StackPanel>
+        Command="{Binding ConfirmProgramSelectionCommand}"
+        CommandParameter="{Binding ElementName=programsListBox, Path=SelectedItem}"
+        Style="{StaticResource BigButtonStyle}"
+        Width="auto"
+        Height="50">
+            <TextBlock 
+            Text="Wybierz program" 
+            FontSize="22"
+            Foreground="Black"
+            Style="{StaticResource TextBlockStyle}"/>
         </Button>
+        </StackPanel>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <DockPanel Grid.Row="0" HorizontalAlignment="Center">
-
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            
+            <StackPanel Orientation="Horizontal">
                 <TextBlock 
-             Text="Nazwa buga: "
-             FontSize="22"
-             Height="auto"
-             Foreground="Black"   
-             Style="{StaticResource TextBlockStyle}"/>
-                <TextBlock 
-             Style="{StaticResource TextBlockStyle}"/>
-
+                Text="Nazwa buga: "
+                FontSize="22"
+                Foreground="Black"
+                Style="{StaticResource TextBlockStyle}"/>
                 <TextBox 
                 x:Name="bugNameTextBox"
                 FontSize="16"
                 VerticalContentAlignment="Center"
                 Width="300"
                 MinHeight="50"
-                Height="50"
                 Style="{StaticResource TextBoxStyle}"
                 Text="{Binding BugName}"/>
+            </StackPanel>
 
-            </DockPanel>
-
-            <DockPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-
+            <StackPanel Orientation="Horizontal">
                 <TextBlock 
-             Text="Opis: "
-             Height="auto"   
-             FontSize="22"
-                Foreground="black"
-             Style="{StaticResource TextBlockStyle}"/>
-
+                Text="Opis: "
+                FontSize="22"
+                Foreground="Black"
+                Style="{StaticResource TextBlockStyle}"/>
                 <TextBox 
                 x:Name="bugDescriptionTextBox"
                 Width="300"
                 FontSize="14"
-                Height="auto"
-                    MinHeight="100"
+                MinHeight="100"
                 TextWrapping="Wrap"
                 Style="{StaticResource TextBoxStyle}"
                 Text="{Binding BugDescription}"/>
+            </StackPanel>
 
-            </DockPanel>
-
-            <DockPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-
+            <StackPanel Orientation="Horizontal">
+                
                 <TextBlock 
-             Text="Priorytet: "
-             Height="auto"
-             Foreground="Black"
-             FontSize="22"
-             Style="{StaticResource TextBlockStyle}"/>
-
+                Text="Priorytet: "
+                FontSize="22"
+                Foreground="Black"
+                Style="{StaticResource TextBlockStyle}"/>
                 <ComboBox 
                 Width="150"
                 Height="30"
@@ -164,25 +136,21 @@
                 FontFamily="Calibri"
                 FontWeight="DemiBold"
                 HorizontalContentAlignment="Center">
-
                     <ComboBoxItem>Niski</ComboBoxItem>
                     <ComboBoxItem>Średni</ComboBoxItem>
                     <ComboBoxItem>Wysoki</ComboBoxItem>
                 </ComboBox>
-
                 <Button
-                    Style="{StaticResource BigButtonStyle}"
-                    Command="{Binding AddBugCommand}"
-                    Width="90"
-                    Height="auto"
-                    Margin="50,0,0,0">
+                Style="{StaticResource BigButtonStyle}"
+                Command="{Binding AddBugCommand}"
+                Width="90"
+                Height="auto"
+                Margin="50,0,0,0">
                     <iconPacks:PackIconMaterial Kind="BugCheck" Width="30" Height="30"/>
                 </Button>
-
-            </DockPanel>
-
-        </Grid>
-
+            </StackPanel>
+            
+        </StackPanel>
     </Grid>
 
 </mah:MetroContentControl>

@@ -33,12 +33,11 @@ public class AddSystemTaskViewModel : BindableBase
         set => SetProperty(ref selectedPriority, value);
     }
 
-
     public IAsyncCommand AddSystemTaskCommand => new AsyncDelegateCommand(async () =>
     {
         if (SelectedPriority is not null)
         {
-            StockMarketTask task = new()
+            SystemTask task = new()
             {
                 Name = SystemTaskName,
                 Description = SystemTaskDescription,
@@ -63,4 +62,5 @@ public class AddSystemTaskViewModel : BindableBase
             SelectedPriority = string.Empty;
         }
     });
+
 }

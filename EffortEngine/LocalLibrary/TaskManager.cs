@@ -5,8 +5,8 @@ namespace EffortEngine.LocalLibrary;
 
 public class TaskManager(ITaskData taskData, IProgramData programData) : BindableBase
 {
-    public TaskBase CurrentTask { get; set; }
-    public Program CurrentProgram { get; set; }
+    public static TaskBase CurrentTask { get; set; }
+    public static Program CurrentProgram { get; set; }
 
     public async Task EvaluateTask(string taskName)
     {

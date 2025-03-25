@@ -1,9 +1,11 @@
 ﻿using DataAccess.Data;
+using EffortEngine.LocalLibrary;
 using EffortEngine.MVVM.Views;
 using SharedProject.Events;
 using SharedProject.Models;
 using SharedProject.Views;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace EffortEngine.MVVM.ViewModels;
 
@@ -87,8 +89,6 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
         //}
     }
 
-
-
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
         SelectedProgram = null;
@@ -160,6 +160,7 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
 
         regionManager.RequestNavigate("TaskTableRegion", nameof(SystemTasksView));
     });
+
     public IAsyncCommand ShowStockMarketTasksView => new AsyncDelegateCommand(async () =>
     {
         var tasks = await taskData.GetAllTasksAsync();
@@ -176,18 +177,44 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
         regionManager.RequestNavigate("TaskTableRegion", nameof(LifeTasksView));
     });
 
-
     public IAsyncCommand StartWorkCommand => new AsyncDelegateCommand(async () =>
     {
-        if (!String.IsNullOrEmpty(SelectedTaskName))
+        if (!String.IsNullOrEmpty(SelectedTaskName) && SelectedTask.Status != TaskBase.TaskStatus.Completed)
         {
-
             var dialog = new ConfirmationDialog { DialogText = $"Rozpocząć pracę nad: {SelectedTaskName}?" };
             dialog.ShowDialog();
 
             if (dialog.Result == true)
             {
                 eventAggregator.GetEvent<StartWorkEvent>().Publish(SelectedTaskName);
+            }
+        }
+    });
+
+    public IAsyncCommand CompleteTaskCommand => new AsyncDelegateCommand<TaskBase>(async task =>
+    {
+        if (task != null)
+        {
+            var dialog = new ConfirmationDialog { DialogText = $"Zakończyć zadanie: {SelectedTaskName}?" };
+            dialog.ShowDialog();
+
+            if (dialog.Result == true)
+            {
+                if (TaskManager.CurrentTask?.Id == task.Id && SessionManager.IsSessionAlive)
+                {
+                    task.TotalWorkTime += PomodoroTimer.ActiveWorkMinutes;
+                    PomodoroTimer.ResetWorkTime();
+                }
+
+                task.Status = TaskBase.TaskStatus.Completed;
+                task.LastUpdated = DateTime.Now;
+
+                await taskData.UpdateTaskAsync(task);
+            }
+
+            else
+            {
+                MessageBox.Show($"{TaskManager.CurrentTask?.Id} {PomodoroTimer.ActiveWorkMinutes}");
             }
         }
     });

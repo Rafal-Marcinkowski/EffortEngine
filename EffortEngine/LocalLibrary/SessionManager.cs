@@ -6,7 +6,7 @@ namespace EffortEngine.LocalLibrary;
 
 public class SessionManager : BindableBase
 {
-    public bool IsSessionAlive { get; set; } = false;
+    public static bool IsSessionAlive { get; set; } = false;
     public PomodoroSession PomodoroSession { get; set; }
 
     private object? lastItemAdded = null;

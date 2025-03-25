@@ -68,7 +68,7 @@ public class AddModuleViewModel : BindableBase
     {
         if (SelectedProgram is not null)
         {
-            Feature feature = new()
+            Module module = new()
             {
                 Description = ModuleDescription,
                 Name = ModuleName,
@@ -87,7 +87,7 @@ public class AddModuleViewModel : BindableBase
                 ProgramId = SelectedProgram.Id,
             };
 
-            await taskData.InsertTaskAsync(feature);
+            await taskData.InsertTaskAsync(module);
 
             SelectedProgram = null;
             ModuleDescription = string.Empty;

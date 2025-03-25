@@ -47,6 +47,33 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Ostatnia zmiana" Binding="{Binding LastUpdated}" />
+
+                <DataGridTemplateColumn Header="Akcje" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button 
+                                 Content="Zakończ" 
+                                 Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                 CommandParameter="{Binding}"
+                                 Margin="2"
+                                 Padding="5,2"
+                                 FontSize="10"
+                                 ToolTip="Zakończ wybrane zadanie">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MahApps.Styles.Button.Flat}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
