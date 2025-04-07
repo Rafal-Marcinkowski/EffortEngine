@@ -17,6 +17,7 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
     private readonly IEventAggregator eventAggregator;
 
     private string SelectedTaskName => SelectedProgram?.Name ?? SelectedTask?.Name ?? string.Empty;
+    private string SelectedTaskStatus => SelectedTask?.Status.ToString() ?? string.Empty;
 
     private Program selectedProgram;
     public Program SelectedProgram
@@ -179,12 +180,12 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
 
     public IAsyncCommand StartWorkCommand => new AsyncDelegateCommand(async () =>
     {
-        if (!String.IsNullOrEmpty(SelectedTaskName) && SelectedTask.Status != TaskBase.TaskStatus.Completed)
+        if (!String.IsNullOrEmpty(SelectedTaskName) && SelectedTaskStatus != nameof(TaskBase.TaskStatus.Completed))
         {
             var dialog = new ConfirmationDialog { DialogText = $"Rozpocząć pracę nad: {SelectedTaskName}?" };
             dialog.ShowDialog();
 
-            if (dialog.Result == true)
+            if (dialog.Result)
             {
                 eventAggregator.GetEvent<StartWorkEvent>().Publish(SelectedTaskName);
             }
@@ -198,7 +199,7 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
             var dialog = new ConfirmationDialog { DialogText = $"Zakończyć zadanie: {SelectedTaskName}?" };
             dialog.ShowDialog();
 
-            if (dialog.Result == true)
+            if (dialog.Result)
             {
                 if (TaskManager.CurrentTask?.Id == task.Id && SessionManager.IsSessionAlive)
                 {

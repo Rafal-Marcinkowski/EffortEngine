@@ -43,13 +43,11 @@ public class AddBugViewModel : BindableBase
         set => SetProperty(ref bugPriority, value);
     }
 
-
-
     private async Task GetProgramsAsync()
     {
         var results = await programData.GetAllProgramsAsync();
 
-        Programs = new ObservableCollection<Program>(results);
+        Programs = [.. results];
     }
 
     private Program selectedProgram;

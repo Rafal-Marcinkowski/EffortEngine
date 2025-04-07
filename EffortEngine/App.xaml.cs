@@ -3,9 +3,11 @@ using DataAccess.DBAccess;
 using EffortEngine.LocalLibrary;
 using EffortEngine.MVVM.ViewModels;
 using EffortEngine.MVVM.Views;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using SharedProject;
+using SharedProject.Services;
 using System.Windows;
 
 namespace EffortEngine;
@@ -68,6 +70,9 @@ public partial class App : PrismApplication
         containerRegistry.Register<AddProgramProjectViewModel>();
         containerRegistry.Register<AddModuleViewModel>();
         containerRegistry.Register<AddTaskViewModel>();
+
+        containerRegistry.RegisterSingleton<ConfigService>();
+        containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();
         containerRegistry.RegisterSingleton<ManageTasksViewModel>();
         containerRegistry.RegisterSingleton<ViewManager>();
         containerRegistry.RegisterSingleton<WorkManager>();
@@ -79,6 +84,6 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IPomodoroSessionData, PomodoroSessionData>();
         containerRegistry.RegisterSingleton<ITaskData, TaskData>();
         containerRegistry.RegisterSingleton<InformationBarViewModel>();
-        containerRegistry.RegisterSingleton<SettingsView>();
+        containerRegistry.RegisterSingleton<SettingsViewModel>();
     }
 }

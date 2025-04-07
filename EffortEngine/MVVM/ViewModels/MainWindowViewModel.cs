@@ -1,9 +1,10 @@
 ﻿using EffortEngine.MVVM.Views;
+using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Input;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class MainWindowViewModel(IRegionManager regionManager) : BindableBase
+public class MainWindowViewModel(IRegionManager regionManager, IDialogCoordinator dialogCoordinator) : BindableBase
 {
 
     public ICommand AddTaskCommand => new DelegateCommand(() =>

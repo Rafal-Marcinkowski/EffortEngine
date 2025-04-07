@@ -49,14 +49,14 @@ public class SessionManager : BindableBase
     {
         if (value is TaskBase)
         {
-            PomodoroSession.Tasks.Last().TotalWorkTime += PomodoroTimer.TotalWorkMinutes;
-            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(PomodoroSession.Tasks.Last().Id);
+            PomodoroSession.Tasks[^1].TotalWorkTime += PomodoroTimer.TotalWorkMinutes;
+            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(PomodoroSession.Tasks[^1].Id);
         }
 
         else if (value is Program)
         {
-            PomodoroSession.Programs.Last().TotalWorkTime += PomodoroTimer.TotalWorkMinutes;
-            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(PomodoroSession.Programs.Last().Id);
+            PomodoroSession.Programs[^1].TotalWorkTime += PomodoroTimer.TotalWorkMinutes;
+            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(PomodoroSession.Programs[^1].Id);
         }
 
         PomodoroTimer.ResetWorkTime();
@@ -70,10 +70,10 @@ public class SessionManager : BindableBase
         {
             Status = PomodoroSession.SessionStatus.InProgress,
             StartTime = DateTime.Now,
-            RoundWorkTime = 25,
+            RoundWorkTime = 30,
             TotalWorkTime = 0,
-            BreakTime = 5,
-            Rounds = 4,
+            BreakTime = 10,
+            Rounds = 2,
         };
     }
 

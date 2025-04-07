@@ -27,7 +27,7 @@ public class AddFeatureViewModel : BindableBase
     {
         var results = await programData.GetAllProgramsAsync();
 
-        Programs = new ObservableCollection<Program>(results);
+        Programs = [.. results];
     }
 
     private Program selectedProgram;

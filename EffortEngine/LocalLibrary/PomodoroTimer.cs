@@ -1,5 +1,8 @@
 ﻿using MahApps.Metro.IconPacks;
 using SharedProject.Events;
+using SharedProject.Models;
+using SharedProject.Services;
+using System.IO;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -7,124 +10,152 @@ namespace EffortEngine.LocalLibrary;
 
 public class PomodoroTimer : BindableBase, IDisposable
 {
-    private DispatcherTimer timer;
-    private int timeRemaining;
-    private int roundsCompleted = 0;
-    private bool isBreak = false;
-    private MediaPlayer soundPlayer = new();
+    private readonly ConfigService _configService;
+    private readonly PomodoroConfig _config;
+    private DispatcherTimer _timer;
+    private int _timeRemaining;
+    private int _roundsCompleted = 0;
+    private bool _isBreak = false;
+    private readonly MediaPlayer _soundPlayer = new();
+    private static int _activeWorkTime = 0;
+    private static int _totalWork = 0;
+    private readonly IEventAggregator _eventAggregator;
 
-    private async Task PlaySoundAsync(string filePath)
+    public PomodoroTimer(IEventAggregator eventAggregator, ConfigService configService)
     {
-        soundPlayer.Open(new Uri(filePath, UriKind.Absolute));
-        soundPlayer.Play();
+        _eventAggregator = eventAggregator;
+        _configService = configService;
+        _config = _configService.LoadConfig();
+
+        StartPauseCommand = new AsyncDelegateCommand(OnStartPause);
+        ResetCommand = new AsyncDelegateCommand(Reset);
+        FinishSessionCommand = new AsyncDelegateCommand(FinishSession);
+        StopCommand = new AsyncDelegateCommand(Stop);
+
+        InitializeTimer();
+        ResetTimerValues();
+
+        _eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await HandleSessionFinished());
     }
 
-    private static int activeWorkTime = 0;
-    public static decimal ActiveWorkMinutes => Math.Round(activeWorkTime / 60m, 2);
+    private void InitializeTimer()
+    {
+        _timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(1)
+        };
+        _timer.Tick += OnTimerTick;
+    }
 
-
-    private static int totalWork = 0;
-    public static decimal TotalWorkMinutes => Math.Round(totalWork / 60m, 2);
-
-    public static void ResetWorkTime() => totalWork = 0;
+    private void ResetTimerValues()
+    {
+        _timeRemaining = _config.WorkDurationMinutes * 60;
+        TimerDisplay = $"Praca: {TimeSpan.FromMinutes(_config.WorkDurationMinutes):mm\\:ss}";
+        RoundCounter = $"Runda 1/{_config.RoundsCount}";
+    }
 
     public IAsyncCommand StartPauseCommand { get; }
     public IAsyncCommand StopCommand { get; }
     public IAsyncCommand FinishSessionCommand { get; }
     public IAsyncCommand ResetCommand { get; }
 
-    public PomodoroTimer(IEventAggregator eventAggregator)
-    {
-        StartPauseCommand = new AsyncDelegateCommand(OnStartPause);
-        ResetCommand = new AsyncDelegateCommand(Reset);
-
-        InitializeTimer();
-
-        this.eventAggregator = eventAggregator;
-        this.eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await HandleSessionFinished());
-    }
-
-    private string currentTaskText = string.Empty;
+    private string _currentTaskText = string.Empty;
     public string CurrentTaskText
     {
-        get => currentTaskText;
-        set => SetProperty(ref currentTaskText, value);
+        get => _currentTaskText;
+        set => SetProperty(ref _currentTaskText, value);
     }
 
-    private string timerDisplay = "00:00";
+    private string _timerDisplay = "00:00";
     public string TimerDisplay
     {
-        get => timerDisplay;
-        set => SetProperty(ref timerDisplay, value);
+        get => _timerDisplay;
+        set => SetProperty(ref _timerDisplay, value);
     }
 
-    private string roundCounter = "Brak sesji";
+    private string _roundCounter = "Brak sesji";
     public string RoundCounter
     {
-        get => roundCounter;
-        set => SetProperty(ref roundCounter, value);
+        get => _roundCounter;
+        set => SetProperty(ref _roundCounter, value);
     }
 
-    private string startPauseText = "Start";
+    private string _startPauseText = "Start";
     public string StartPauseText
     {
-        get => startPauseText;
-        set => SetProperty(ref startPauseText, value);
+        get => _startPauseText;
+        set => SetProperty(ref _startPauseText, value);
     }
 
-    private PackIconMaterialKind startPauseIcon;
+    private PackIconMaterialKind _startPauseIcon = PackIconMaterialKind.Play;
     public PackIconMaterialKind StartPauseIcon
     {
-        get => startPauseIcon;
-        set => SetProperty(ref startPauseIcon, value);
+        get => _startPauseIcon;
+        set => SetProperty(ref _startPauseIcon, value);
     }
 
-    private bool isRunning = false;
-    private readonly IEventAggregator eventAggregator;
-
+    private bool _isRunning = false;
     public bool IsRunning
     {
-        get => isRunning;
-        set => SetProperty(ref isRunning, value);
+        get => _isRunning;
+        set => SetProperty(ref _isRunning, value);
     }
 
-    private void InitializeTimer()
-    {
-        timer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(1)
-        };
-
-        StartPauseText = IsRunning ? "Pause" : "Start";
-        StartPauseIcon = IsRunning ? PackIconMaterialKind.Pause : PackIconMaterialKind.Play;
-
-        timer.Tick += OnTimerTick;
-    }
+    public static decimal ActiveWorkMinutes => Math.Round(_activeWorkTime / 60m, 2);
+    public static decimal TotalWorkMinutes => Math.Round(_totalWork / 60m, 2);
+    public static void ResetWorkTime() => _totalWork = 0;
 
     private async Task OnStartPause()
     {
-        if (!String.IsNullOrEmpty(CurrentTaskText))
+        if (!string.IsNullOrEmpty(CurrentTaskText))
         {
-            if (timeRemaining == 0)
+            if (_timeRemaining == 0)
             {
-                timeRemaining = 25 * 60;
-                isBreak = false;
+                _timeRemaining = _config.WorkDurationMinutes * 60;
+                _isBreak = false;
             }
 
             if (IsRunning)
             {
-                timer.Stop();
+                _timer.Stop();
             }
             else
             {
-                timer.Start();
-                RoundCounter = $"Runda {roundsCompleted + 1}/4";
+                _timer.Start();
+                RoundCounter = $"Runda {_roundsCompleted + 1}/{_config.RoundsCount}";
             }
 
             IsRunning = !IsRunning;
             StartPauseText = IsRunning ? "Pause" : "Start";
             StartPauseIcon = IsRunning ? PackIconMaterialKind.Pause : PackIconMaterialKind.Play;
         }
+    }
+
+    private async Task Stop()
+    {
+        _timer.Stop();
+        IsRunning = false;
+        StartPauseText = "Start";
+        StartPauseIcon = PackIconMaterialKind.Play;
+    }
+
+    private async Task FinishSession()
+    {
+        await Reset();
+        _eventAggregator.GetEvent<SessionFinishedEvent>().Publish();
+    }
+
+    private async Task Reset()
+    {
+        _timer.Stop();
+        IsRunning = false;
+        StartPauseText = "Start";
+        StartPauseIcon = PackIconMaterialKind.Play;
+        ResetTimerValues();
+        _roundsCompleted = 0;
+        _isBreak = false;
+        _totalWork = 0;
+        _activeWorkTime = 0;
     }
 
     private async Task HandleSessionFinished()
@@ -134,74 +165,73 @@ public class PomodoroTimer : BindableBase, IDisposable
         RoundCounter = "Brak sesji";
     }
 
-    private async Task Reset()
-    {
-        timer.Stop();
-        IsRunning = false;
-        StartPauseText = "Start";
-        StartPauseIcon = PackIconMaterialKind.Play;
-        timeRemaining = 25 * 60;
-        roundsCompleted = 0;
-        RoundCounter = $"Runda {roundsCompleted + 1}/4";
-        isBreak = false;
-        totalWork = 0;
-        activeWorkTime = 0;
-        TimerDisplay = $"00:00";
-    }
-
     private async void OnTimerTick(object sender, EventArgs e)
     {
-        if (timeRemaining > 0)
+        if (_timeRemaining > 0)
         {
-            timeRemaining--;
+            _timeRemaining--;
 
-            if (!isBreak && IsRunning)
+            if (!_isBreak && IsRunning)
             {
-                totalWork++;
-                activeWorkTime++;
+                _totalWork++;
+                _activeWorkTime++;
             }
 
-            TimerDisplay = $"{(isBreak ? "Przerwa" : "Praca")}: {TimeSpan.FromSeconds(timeRemaining):mm\\:ss}";
+            TimerDisplay = $"{(_isBreak ? "Przerwa" : "Praca")}: {TimeSpan.FromSeconds(_timeRemaining):mm\\:ss}";
         }
 
-        if (timeRemaining == 0)
+        if (_timeRemaining == 0)
         {
-            isBreak = !isBreak;
-            timeRemaining = isBreak ? 5 * 60 : 25 * 60;
+            _isBreak = !_isBreak;
+            _timeRemaining = _isBreak ? _config.BreakDurationMinutes * 60 : _config.WorkDurationMinutes * 60;
 
-            if (isBreak)
+            if (_isBreak)
             {
-                eventAggregator.GetEvent<BreakStartedEvent>().Publish();
-                PlaySoundAsync("D:\\Microsoft Visual Studio 2022\\ImportantProjects\\EffortEngine\\EffortEngine\\LocalLibrary\\Miscellaneous\\breakstart.mp3");
+                _eventAggregator.GetEvent<BreakStartedEvent>().Publish();
+                await PlaySoundAsync("breakstart.mp3");
             }
-
             else
             {
-                eventAggregator.GetEvent<BreakEndedEvent>().Publish();
-                roundsCompleted++;
+                _eventAggregator.GetEvent<BreakEndedEvent>().Publish();
+                _roundsCompleted++;
 
-                if (roundsCompleted < 4)
+                if (_roundsCompleted < _config.RoundsCount)
                 {
-                    PlaySoundAsync("D:\\Microsoft Visual Studio 2022\\ImportantProjects\\EffortEngine\\EffortEngine\\LocalLibrary\\Miscellaneous\\breakend.mp3");
+                    await PlaySoundAsync("breakend.mp3");
+                    RoundCounter = $"Runda {_roundsCompleted + 1}/{_config.RoundsCount}";
                 }
-
-                RoundCounter = $"Runda {roundsCompleted + 1}/4";
-
-                if (roundsCompleted >= 4)
+                else
                 {
-                    eventAggregator.GetEvent<SessionElapsedEvent>().Publish();
-                    PlaySoundAsync("D:\\Microsoft Visual Studio 2022\\ImportantProjects\\EffortEngine\\EffortEngine\\LocalLibrary\\Miscellaneous\\sessioncompleted.mp3");
+                    _eventAggregator.GetEvent<SessionElapsedEvent>().Publish();
+                    await PlaySoundAsync("sessioncompleted.mp3");
                     await Task.Delay(250);
-                    await Reset();
-                    return;
+                    await FinishSession();
                 }
             }
         }
     }
 
-    void IDisposable.Dispose()
+    private async Task PlaySoundAsync(string fileName)
     {
-        timer.Tick -= OnTimerTick;
-        timer.Stop();
+        try
+        {
+            var soundPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\", "Sounds", fileName);
+            if (File.Exists(soundPath))
+            {
+                _soundPlayer.Open(new Uri(soundPath));
+                _soundPlayer.Play();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error playing sound: {ex.Message}");
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer.Tick -= OnTimerTick;
+        _timer.Stop();
+        _soundPlayer.Close();
     }
 }
