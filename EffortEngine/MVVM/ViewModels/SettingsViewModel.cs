@@ -7,9 +7,19 @@ namespace EffortEngine.MVVM.ViewModels;
 
 public class SettingsViewModel : BindableBase
 {
+    public SettingsViewModel(ConfigService configService, IDialogCoordinator dialogCoordinator)
+    {
+        _configService = configService;
+        _currentConfig = _configService.LoadConfig();
+        _dialogCoordinator = dialogCoordinator;
+
+        SaveCommand = new AsyncDelegateCommand(SaveSettings);
+        ResetToDefaultsCommand = new AsyncDelegateCommand(ResetToDefaults);
+    }
+
     private readonly ConfigService _configService;
     private PomodoroConfig _currentConfig;
-    private IDialogCoordinator _dialogCoordinator;
+    private readonly IDialogCoordinator _dialogCoordinator;
 
     public int WorkDurationMinutes
     {
@@ -43,16 +53,6 @@ public class SettingsViewModel : BindableBase
 
     public ICommand SaveCommand { get; }
     public ICommand ResetToDefaultsCommand { get; }
-
-    public SettingsViewModel(ConfigService configService, IDialogCoordinator dialogCoordinator)
-    {
-        _configService = configService;
-        _currentConfig = _configService.LoadConfig();
-        _dialogCoordinator = dialogCoordinator;
-
-        SaveCommand = new AsyncDelegateCommand(SaveSettings);
-        ResetToDefaultsCommand = new AsyncDelegateCommand(ResetToDefaults);
-    }
 
     private async Task SaveSettings()
     {

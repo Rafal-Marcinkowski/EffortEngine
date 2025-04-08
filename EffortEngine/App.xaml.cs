@@ -42,13 +42,10 @@ public partial class App : PrismApplication
 
         containerRegistry.RegisterForNavigation<ManageTasksView>();
         containerRegistry.RegisterForNavigation<AddProgrammingTaskView>();
-        containerRegistry.RegisterForNavigation<AddModuleView>();
         containerRegistry.RegisterForNavigation<AddLifeTaskView>();
         containerRegistry.RegisterForNavigation<AddSystemTaskView>();
         containerRegistry.RegisterForNavigation<InformationBarView>();
-        containerRegistry.RegisterForNavigation<AddBugView>();
         containerRegistry.RegisterForNavigation<AddStockMarketTaskView>();
-        containerRegistry.RegisterForNavigation<AddFeatureView>();
         containerRegistry.RegisterForNavigation<AddProgramProjectView>();
         containerRegistry.RegisterForNavigation<AllTasksTableView, ManageTasksViewModel>();
         containerRegistry.RegisterForNavigation<ProgramsTaskTableView, ManageTasksViewModel>();
@@ -64,11 +61,7 @@ public partial class App : PrismApplication
         containerRegistry.Register<AddProgrammingTaskViewModel>();
         containerRegistry.Register<AddLifeTaskViewModel>();
         containerRegistry.Register<AddSystemTaskViewModel>();
-        containerRegistry.Register<AddBugViewModel>();
         containerRegistry.Register<AddStockMarketTaskViewModel>();
-        containerRegistry.Register<AddFeatureViewModel>();
-        containerRegistry.Register<AddProgramProjectViewModel>();
-        containerRegistry.Register<AddModuleViewModel>();
         containerRegistry.Register<AddTaskViewModel>();
 
         containerRegistry.RegisterSingleton<ConfigService>();

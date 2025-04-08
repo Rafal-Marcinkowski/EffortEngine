@@ -5,7 +5,6 @@ using SharedProject.Events;
 using SharedProject.Models;
 using SharedProject.Views;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace EffortEngine.MVVM.ViewModels;
 
@@ -211,11 +210,6 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
                 task.LastUpdated = DateTime.Now;
 
                 await taskData.UpdateTaskAsync(task);
-            }
-
-            else
-            {
-                MessageBox.Show($"{TaskManager.CurrentTask?.Id} {PomodoroTimer.ActiveWorkMinutes}");
             }
         }
     });
