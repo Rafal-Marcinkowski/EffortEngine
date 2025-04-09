@@ -12,9 +12,9 @@ public class TaskBase : BindableBase
 
     public enum TaskType
     {
-        Module,
-        Feature,
         Bug,
+        Feature,
+        Module,
         LifeTask,
         StockMarketTask,
         SystemTask
@@ -40,10 +40,10 @@ public class TaskBase : BindableBase
         {
             return Status switch
             {
-                (TaskStatus)0 => "Dodane",
-                (TaskStatus)1 => "W trakcie",
-                (TaskStatus)2 => "Zakończone",
-                (TaskStatus)3 => "Wstrzymane",
+                0 => "Dodane",
+                TaskStatus.InProgress => "W trakcie",
+                TaskStatus.Completed => "Zakończone",
+                TaskStatus.Paused => "Wstrzymane",
             };
         }
     }
@@ -54,12 +54,12 @@ public class TaskBase : BindableBase
         {
             return Type switch
             {
-                (TaskType)0 => "Moduł",
-                (TaskType)1 => "Funkcja",
-                (TaskType)2 => "Bug",
-                (TaskType)3 => "Życie",
-                (TaskType)4 => "Giełda",
-                (TaskType)5 => "System",
+                TaskType.Bug => "Bug",
+                TaskType.Feature => "Funkcja",
+                TaskType.Module => "Moduł",
+                TaskType.LifeTask => "Życie",
+                TaskType.StockMarketTask => "Giełda",
+                TaskType.SystemTask => "System",
             };
         }
     }

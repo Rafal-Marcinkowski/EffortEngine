@@ -2,13 +2,13 @@
 using FluentValidation;
 using SharedProject.Models;
 
-namespace ValidationComponent.ProgramProjects;
+namespace ValidationComponent;
 
-public class AddProgramProjectValidation : AbstractValidator<Program>
+public class AddProgramValidation : AbstractValidator<Program>
 {
     private readonly IProgramData programData;
 
-    public AddProgramProjectValidation(IProgramData programData)
+    public AddProgramValidation(IProgramData programData)
     {
         this.programData = programData;
 
@@ -18,7 +18,7 @@ public class AddProgramProjectValidation : AbstractValidator<Program>
 
         RuleFor(x => x.Name)
             .MustAsync(IsProgramNew)
-            .When(x => !String.IsNullOrEmpty(x.Name))
+            .When(x => !string.IsNullOrEmpty(x.Name))
             .WithMessage("Program o takiej nazwie już jest w bazie danych.");
     }
 

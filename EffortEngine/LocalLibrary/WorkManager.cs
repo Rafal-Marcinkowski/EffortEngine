@@ -31,6 +31,6 @@ public class WorkManager : BindableBase
         PomodoroTimer.RoundCounter = $"Runda: 1/{SessionManager.PomodoroSession.Rounds}";
 
         await taskManager.EvaluateTask(taskName);
-        await SessionManager.AddTaskToSession(TaskManager.CurrentTask is null ? TaskManager.CurrentProgram : TaskManager.CurrentTask);
+        await SessionManager.AddTaskToSession((object)TaskManager.CurrentTask ?? TaskManager.CurrentProgram);
     }
 }
