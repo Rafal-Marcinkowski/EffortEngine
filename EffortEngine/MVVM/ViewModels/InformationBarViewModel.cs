@@ -6,7 +6,3 @@ public class InformationBarViewModel(WorkManager workManager) : BindableBase
 {
     public WorkManager WorkManager { get; set; } = workManager;
 }
-
-
-
-

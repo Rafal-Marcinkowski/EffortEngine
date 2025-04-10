@@ -13,24 +13,10 @@ public class AddTaskViewModel(IRegionManager regionManager) : BindableBase
         regionManager.RequestNavigate("MainRegion", nameof(AddProgrammingTaskView));
     });
 
-    public ICommand AddStockMarketTaskCommand => new DelegateCommand(() =>
+    public ICommand AddGeneralTaskCommand => new DelegateCommand(() =>
     {
         var region = regionManager.Regions["MainRegion"];
         region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(AddStockMarketTaskView));
-    });
-
-    public ICommand AddLifeTaskCommand => new DelegateCommand(() =>
-    {
-        var region = regionManager.Regions["MainRegion"];
-        region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(AddLifeTaskView));
-    });
-
-    public ICommand AddSystemTaskCommand => new DelegateCommand(() =>
-    {
-        var region = regionManager.Regions["MainRegion"];
-        region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(AddSystemTaskView));
+        regionManager.RequestNavigate("MainRegion", nameof(AddGeneralTaskView));
     });
 }

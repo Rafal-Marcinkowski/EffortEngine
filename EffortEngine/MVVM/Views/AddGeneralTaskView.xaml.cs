@@ -1,9 +1,9 @@
 ﻿namespace EffortEngine.MVVM.Views;
 
 
-public partial class AddStockMarketTaskView
+public partial class AddGeneralTaskView
 {
-    public AddStockMarketTaskView()
+    public AddGeneralTaskView()
     {
         InitializeComponent();
     }

@@ -1,43 +1,46 @@
 ﻿<mah:MetroContentControl
-            x:Class="EffortEngine.MVVM.Views.AllProgrammingTasksView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                   xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-         xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
-         xmlns:prism="http://prismlibrary.com/"
-         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-         mc:Ignorable="d" 
-         d:DesignHeight="450" d:DesignWidth="800">
+    x:Class="EffortEngine.MVVM.Views.AllProgrammingTasksView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
 
     <Grid>
         <DataGrid
-   
-         ItemsSource="{Binding TaskList}"
-         SelectedItem="{Binding SelectedTask, UpdateSourceTrigger=PropertyChanged}"
-         AutoGenerateColumns="False"
-         IsReadOnly="True"
-         SelectionMode="Single"
-         FontSize="10"
-         SelectionUnit="FullRow">
+            AutoGenerateColumns="False"
+            FontSize="10"
+            IsReadOnly="True"
+            ItemsSource="{Binding TaskList}"
+            SelectedItem="{Binding SelectedTask, UpdateSourceTrigger=PropertyChanged}"
+            SelectionMode="Single"
+            SelectionUnit="FullRow">
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Nazwa" MaxWidth="150">
+                <DataGridTemplateColumn MaxWidth="150" Header="Nazwa">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Priorytet" Binding="{Binding PriorityString}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding StatusString}" />
-                <DataGridTextColumn Header="Typ" Binding="{Binding TypeString}" />
+                <DataGridTextColumn Binding="{Binding PriorityString}" Header="Priorytet" />
+                <DataGridTextColumn Binding="{Binding StatusString}" Header="Status" />
+                <DataGridTextColumn Binding="{Binding TypeString}" Header="Typ" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <iconPacks:PackIconGameIcons Kind="SandsOfTime" Width="20" Height="20" />
+                            <iconPacks:PackIconGameIcons
+                                Width="20"
+                                Height="20"
+                                Kind="SandsOfTime" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -46,25 +49,25 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Ostatnia zmiana" Binding="{Binding LastUpdated}" />
+                <DataGridTextColumn Binding="{Binding LastUpdated}" Header="Ostatnia zmiana" />
 
-                <DataGridTemplateColumn Header="Akcje" Width="Auto">
+                <DataGridTemplateColumn Width="Auto" Header="Akcje">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button 
-                                 Content="Zakończ" 
-                                 Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                 CommandParameter="{Binding}"
-                                 Margin="2"
-                                 Padding="5,2"
-                                 FontSize="10"
-                                 ToolTip="Zakończ wybrane zadanie">
+                            <Button
+                                Margin="2"
+                                Padding="5,2"
+                                Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}"
+                                Content="Zakończ"
+                                FontSize="10"
+                                ToolTip="Zakończ wybrane zadanie">
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource MahApps.Styles.Button.Flat}">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                    <Style BasedOn="{StaticResource MahApps.Styles.Button.Flat}" TargetType="Button">
+                                        <Setter Property="Visibility" Value="Visible" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Status}" Value="Completed">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Setter Property="Visibility" Value="Collapsed" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -73,7 +76,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
