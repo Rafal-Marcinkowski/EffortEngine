@@ -16,6 +16,15 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Style
+                x:Key="TaskTextBoxStyle"
+                BasedOn="{StaticResource MahApps.Styles.TextBox}"
+                TargetType="TextBox">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="black" />
+            </Style>
+
+            <Style
                 x:Key="TaskTextBlockStyle"
                 BasedOn="{StaticResource MahApps.Styles.TextBlock}"
                 TargetType="TextBlock">

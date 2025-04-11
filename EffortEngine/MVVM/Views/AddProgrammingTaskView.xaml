@@ -20,9 +20,10 @@
         </Grid.RowDefinitions>
 
         <mah:MetroTabControl
-            Background="LightGray"
-            mah:HeaderedControlHelper.HeaderFontSize="22"
+            HorizontalAlignment="Center"
+            mah:HeaderedControlHelper.HeaderFontSize="24"
             mah:HeaderedControlHelper.HeaderFontWeight="DemiBold"
+            Background="LightGray"
             SelectedIndex="{Binding SelectedTabIndex}">
 
             <mah:MetroTabItem Header="Bug">
@@ -52,13 +53,13 @@
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     FontSize="22"
-                                    FontWeight="Bold"
-                                    Foreground="Black"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nowy bug" />
                                 <ComboBox
                                     Width="200"
                                     Height="30"
                                     Margin="20,0,0,0"
+                                    mah:ControlsHelper.FocusBorderBrush="Black"
                                     mah:TextBoxHelper.Watermark="Wybierz program"
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Programs}"
@@ -81,26 +82,18 @@
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    Foreground="Black"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nazwa:" />
                                 <TextBox
                                     Grid.Row="0"
-                                    FontSize="12"
                                     Grid.Column="1"
+                                    Style="{StaticResource TaskTextBoxStyle}"
                                     Text="{Binding TaskName}" />
 
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Foreground="Black"
-                                    FontSize="14"
-                                    VerticalAlignment="Center"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Opis:" />
                                 <TextBox
                                     Grid.Row="1"
@@ -108,20 +101,14 @@
                                     Width="325"
                                     MinHeight="80"
                                     Margin="0,8,0,8"
-                                    FontSize="12"
-                                    Style="{StaticResource MahApps.Styles.TextBox}"
-                                    Text="{Binding TaskDescription}"
-                                    TextWrapping="Wrap" />
+                                    Style="{StaticResource TaskTextBoxStyle}"
+                                    Text="{Binding TaskDescription}" />
 
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    Foreground="Black"
                                     Margin="0,0,5,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Priorytet:" />
                                 <StackPanel
                                     Grid.Row="2"
@@ -129,6 +116,7 @@
                                     Orientation="Horizontal">
                                     <ComboBox
                                         Width="180"
+                                        mah:ControlsHelper.FocusBorderBrush="Black"
                                         SelectedValue="{Binding TaskPriority}"
                                         SelectedValuePath="Content">
                                         <ComboBoxItem Content="Niski" />
@@ -157,7 +145,8 @@
                                         Width="75"
                                         Height="50"
                                         Margin="8,0,0,0"
-                                        Command="{Binding ResetCommand}">
+                                        Command="{Binding ResetCommand}"
+                                        Style="{StaticResource BigButtonStyle}">
                                         <iconPacks:PhosphorIcons
                                             Width="30"
                                             Height="30"
@@ -194,16 +183,18 @@
                                     Width="40"
                                     Height="40"
                                     Margin="0,0,8,0"
+                                    Foreground="Black"
                                     Kind="CellFunction" />
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     FontSize="22"
-                                    FontWeight="Bold"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nowa funkcja" />
                                 <ComboBox
                                     Width="200"
                                     Height="30"
                                     Margin="20,0,0,0"
+                                    mah:ControlsHelper.FocusBorderBrush="Black"
                                     mah:TextBoxHelper.Watermark="Wybierz program"
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Programs}"
@@ -226,24 +217,18 @@
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nazwa:" />
                                 <TextBox
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    FontSize="12"
+                                    Style="{StaticResource TaskTextBoxStyle}"
                                     Text="{Binding TaskName}" />
 
                                 <TextBlock
                                     Grid.Row="1"
-                                    FontSize="14"
                                     Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Opis:"
                                     TextWrapping="WrapWithOverflow" />
                                 <TextBox
@@ -252,19 +237,14 @@
                                     Width="350"
                                     MinHeight="80"
                                     Margin="0,8,0,8"
-                                    FontSize="12"
-                                    Style="{StaticResource MahApps.Styles.TextBox}"
-                                    Text="{Binding TaskDescription}"
-                                    TextWrapping="Wrap" />
+                                    Style="{StaticResource TaskTextBoxStyle}"
+                                    Text="{Binding TaskDescription}" />
 
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="0"
                                     Margin="0,0,5,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Priorytet:" />
                                 <StackPanel
                                     Grid.Row="2"
@@ -272,6 +252,7 @@
                                     Orientation="Horizontal">
                                     <ComboBox
                                         Width="180"
+                                        mah:ControlsHelper.FocusBorderBrush="Black"
                                         SelectedValue="{Binding TaskPriority}"
                                         SelectedValuePath="Content">
                                         <ComboBoxItem Content="Niski" />
@@ -300,7 +281,8 @@
                                         Width="75"
                                         Height="50"
                                         Margin="8,0,0,0"
-                                        Command="{Binding ResetCommand}">
+                                        Command="{Binding ResetCommand}"
+                                        Style="{StaticResource BigButtonStyle}">
                                         <iconPacks:PhosphorIcons
                                             Width="30"
                                             Height="30"
@@ -337,16 +319,18 @@
                                     Width="40"
                                     Height="40"
                                     Margin="0,0,8,0"
+                                    Foreground="Black"
                                     Kind="Package2" />
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     FontSize="22"
-                                    FontWeight="Bold"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nowy moduł" />
                                 <ComboBox
                                     Width="200"
                                     Height="30"
                                     Margin="20,0,0,0"
+                                    mah:ControlsHelper.FocusBorderBrush="Black"
                                     mah:TextBoxHelper.Watermark="Wybierz program"
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Programs}"
@@ -369,44 +353,33 @@
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nazwa:" />
                                 <TextBox
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    FontSize="12"
+                                    Style="{StaticResource TaskTextBoxStyle}"
                                     Text="{Binding TaskName}" />
 
                                 <TextBlock
                                     Grid.Row="1"
-                                    FontSize="14"
                                     Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Opis:" />
                                 <TextBox
                                     Grid.Row="1"
                                     Grid.Column="1"
-                                    MinHeight="80"
                                     Width="340"
+                                    MinHeight="80"
                                     Margin="0,8,0,8"
-                                    FontSize="12"
-                                    Style="{StaticResource MahApps.Styles.TextBox}"
-                                    Text="{Binding TaskDescription}"
-                                    TextWrapping="Wrap" />
+                                    Style="{StaticResource TaskTextBoxStyle}"
+                                    Text="{Binding TaskDescription}" />
 
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="0"
                                     Margin="0,0,5,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Priorytet:" />
                                 <StackPanel
                                     Grid.Row="2"
@@ -414,6 +387,7 @@
                                     Orientation="Horizontal">
                                     <ComboBox
                                         Width="180"
+                                        mah:ControlsHelper.FocusBorderBrush="Black"
                                         SelectedValue="{Binding TaskPriority}"
                                         SelectedValuePath="Content">
                                         <ComboBoxItem Content="Niski" />
@@ -442,7 +416,8 @@
                                         Width="75"
                                         Height="50"
                                         Margin="8,0,0,0"
-                                        Command="{Binding ResetCommand}">
+                                        Command="{Binding ResetCommand}"
+                                        Style="{StaticResource BigButtonStyle}">
                                         <iconPacks:PhosphorIcons
                                             Width="30"
                                             Height="30"
@@ -481,14 +456,13 @@
                                 <iconPacks:PackIconFontAwesome
                                     Width="40"
                                     Height="40"
-                                    Foreground="DimGray"
+                                    Foreground="Black"
                                     Kind="DiagramProjectSolid" />
                                 <TextBlock
                                     Margin="8,0,0,0"
                                     VerticalAlignment="Center"
                                     FontSize="22"
-                                    FontWeight="Bold"
-                                    Foreground="DimGray"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nowy program" />
                             </StackPanel>
 
@@ -508,10 +482,7 @@
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Margin="0,0,5,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Nazwa:" />
                                 <TextBox
                                     Grid.Row="0"
@@ -522,9 +493,7 @@
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontWeight="DemiBold"
-                                    Style="{StaticResource MahApps.Styles.TextBlock}"
+                                    Style="{StaticResource TaskTextBlockStyle}"
                                     Text="Opis:" />
                                 <TextBox
                                     Grid.Row="1"
@@ -558,7 +527,8 @@
                                         Width="75"
                                         Height="50"
                                         Margin="8,0,0,0"
-                                        Command="{Binding ResetCommand}">
+                                        Command="{Binding ResetCommand}"
+                                        Style="{StaticResource BigButtonStyle}">
                                         <iconPacks:PhosphorIcons
                                             Width="30"
                                             Height="30"
