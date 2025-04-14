@@ -1,11 +1,12 @@
 ﻿using DataAccess.Data;
+using SharedProject.Events;
 using SharedProject.Models;
 using SharedProject.Views;
 using ValidationComponent;
 
 namespace EffortEngine.LocalLibrary;
 
-public class TaskManager(ITaskData taskData, IProgramData programData) : BindableBase
+public class TaskManager(ITaskData taskData, IProgramData programData, IEventAggregator eventAggregator) : BindableBase
 {
     public static TaskBase CurrentTask { get; set; }
     public static Program CurrentProgram { get; set; }
@@ -55,7 +56,7 @@ public class TaskManager(ITaskData taskData, IProgramData programData) : Bindabl
         return true;
     }
 
-    public async Task<bool> TryAddTask(string taskName, string taskDescription, string taskPriority, int selectedTabIndex, int programId)
+    public async Task<bool> TryAddTask(string taskName, string taskDescription, string taskPriority, int selectedTabIndex, int? programId)
     {
         TaskToAdd = await CreateTask(taskName, taskDescription, taskPriority, selectedTabIndex, programId);
         if (!await ValidateTask(TaskToAdd)) return false;
@@ -63,7 +64,7 @@ public class TaskManager(ITaskData taskData, IProgramData programData) : Bindabl
         return true;
     }
 
-    private async Task<TaskBase> CreateTask(string taskName, string taskDescription, string taskPriority, int selectedTabIndex, int programId)
+    private async Task<TaskBase> CreateTask(string taskName, string taskDescription, string taskPriority, int selectedTabIndex, int? programId)
     {
         return new TaskBase
         {
@@ -83,5 +84,67 @@ public class TaskManager(ITaskData taskData, IProgramData programData) : Bindabl
             },
             ProgramId = programId
         };
+    }
+
+    public async Task AddProgram(string programName)
+    {
+        Program program = new()
+        {
+            Name = programName
+        };
+
+        var validator = new AddProgramValidation(programData);
+        var results = await validator.ValidateAsync(program);
+
+        if (results.IsValid)
+        {
+            program.TotalWorkTime = 0;
+            await programData.InsertProgramAsync(program);
+            eventAggregator.GetEvent<ProgramAddedEvent>().Publish(program);
+        }
+
+        else
+        {
+            var validationErrors = string.Join("\n", results.Errors.Select(e => e.ErrorMessage));
+
+            var dialog = new ErrorDialog()
+            {
+                DialogText = validationErrors
+            };
+
+            dialog.ShowDialog();
+        }
+    }
+
+    public async Task<bool> TryAddProgram(string programName)
+    {
+        Program program = new()
+        {
+            Name = programName
+        };
+
+        var validator = new AddProgramValidation(programData);
+        var results = await validator.ValidateAsync(program);
+
+        if (results.IsValid)
+        {
+            program.TotalWorkTime = 0;
+            await programData.InsertProgramAsync(program);
+            eventAggregator.GetEvent<ProgramAddedEvent>().Publish(program);
+            return true;
+        }
+
+        else
+        {
+            var validationErrors = string.Join("\n", results.Errors.Select(e => e.ErrorMessage));
+
+            var dialog = new ErrorDialog()
+            {
+                DialogText = validationErrors
+            };
+
+            dialog.ShowDialog();
+            return false;
+        }
     }
 }

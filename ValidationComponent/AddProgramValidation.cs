@@ -14,12 +14,12 @@ public class AddProgramValidation : AbstractValidator<Program>
 
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage("Podaj nazwę programu.");
+            .WithMessage("Podaj nazwę programu");
 
         RuleFor(x => x.Name)
             .MustAsync(IsProgramNew)
             .When(x => !string.IsNullOrEmpty(x.Name))
-            .WithMessage("Program o takiej nazwie już jest w bazie danych.");
+            .WithMessage("Program o takiej nazwie już jest w bazie danych");
     }
 
     private async Task<bool> IsProgramNew(string name, CancellationToken cancellation)

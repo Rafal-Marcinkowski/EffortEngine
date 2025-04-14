@@ -516,7 +516,7 @@
                                     <Button
                                         Width="75"
                                         Height="50"
-                                        Command="{Binding AddTaskCommand}"
+                                        Command="{Binding AddProgramCommand}"
                                         Style="{StaticResource BigButtonStyle}">
                                         <iconPacks:PackIconMaterial
                                             Width="30"

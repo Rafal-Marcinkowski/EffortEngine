@@ -18,7 +18,7 @@
             AutoGenerateColumns="False"
             FontSize="10"
             IsReadOnly="True"
-            ItemsSource="{Binding TaskList}"
+            ItemsSource="{Binding taskTableViewModel.TaskList}"
             SelectedItem="{Binding SelectedTask, UpdateSourceTrigger=PropertyChanged}"
             SelectionMode="Single"
             SelectionUnit="FullRow">

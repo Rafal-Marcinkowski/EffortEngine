@@ -1,8 +1,9 @@
 ﻿namespace EffortEngine.MVVM.Views;
 
-public partial class LifeTasksView
+
+public partial class TaskTableView
 {
-    public LifeTasksView()
+    public TaskTableView()
     {
         InitializeComponent();
     }

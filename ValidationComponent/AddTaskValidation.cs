@@ -9,15 +9,18 @@ public class AddTaskValidation : AbstractValidator<TaskBase>
     {
         RuleFor(task => task.Name)
             .NotEmpty()
-            .WithMessage("Nazwa zadania nie może być pusta.");
+            .WithMessage("Nazwa zadania nie może być pusta");
         RuleFor(task => task.Description)
             .NotEmpty()
-            .WithMessage("Opis zadania nie może być pusty.");
+            .WithMessage("Opis zadania nie może być pusty");
         RuleFor(task => task.Priority)
             .InclusiveBetween(0, 3)
             .WithMessage("Ustaw priorytet zadania");
         RuleFor(task => task.ProgramId)
-            .GreaterThan(0)
+            .NotNull()
+            .When(task => task.Type == TaskBase.TaskType.Bug
+            || task.Type == TaskBase.TaskType.Feature
+            || task.Type == TaskBase.TaskType.Module)
             .WithMessage("Wybierz program");
     }
 }

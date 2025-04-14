@@ -4,7 +4,7 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class AddGeneralTaskViewModel(ITaskData taskData, TaskManager taskManager) : BindableBase
+public class AddGeneralTaskViewModel(ITaskData taskData, TaskManager taskManager, DialogCoordinator dialogCoordinator) : BindableBase
 {
     private string taskName = string.Empty;
     public string TaskName
@@ -40,9 +40,9 @@ public class AddGeneralTaskViewModel(ITaskData taskData, TaskManager taskManager
         }
     }
 
-    public IAsyncCommand AddGeneralTaskCommand => new AsyncDelegateCommand(async () =>
+    public IAsyncCommand AddTaskCommand => new AsyncDelegateCommand(async () =>
     {
-        if (!await taskManager.TryAddTask(TaskName, TaskDescription, TaskPriority, SelectedTabIndex)) return;
+        if (!await taskManager.TryAddTask(TaskName, TaskDescription, TaskPriority, SelectedTabIndex + 3, null)) return;
         await dialogCoordinator.ShowMessageAsync(this, "Dodano zadanie",
            $"Nazwa: {TaskName}\n{TaskManager.TaskToAdd.Type} został dodany.");
         await ClearFields();
@@ -53,6 +53,8 @@ public class AddGeneralTaskViewModel(ITaskData taskData, TaskManager taskManager
         await Task.Delay(50);
         await ClearFields();
     }
+
+    public IAsyncCommand ResetCommand => new AsyncDelegateCommand(async () => await ClearFields());
 
     private async Task ClearFields()
     {

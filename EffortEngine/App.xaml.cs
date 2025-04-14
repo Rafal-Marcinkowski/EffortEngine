@@ -43,13 +43,10 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<ManageTasksView>();
         containerRegistry.RegisterForNavigation<AddProgrammingTaskView>();
         containerRegistry.RegisterForNavigation<InformationBarView>();
-        containerRegistry.RegisterForNavigation<AllTasksTableView, ManageTasksViewModel>();
-        containerRegistry.RegisterForNavigation<ProgramsTaskTableView, ManageTasksViewModel>();
-        containerRegistry.RegisterForNavigation<AllProgrammingTasksView, ManageTasksViewModel>();
-        containerRegistry.RegisterForNavigation<StockMarketTasksView, ManageTasksViewModel>();
+        containerRegistry.RegisterForNavigation<TaskTableView>();
+        containerRegistry.RegisterForNavigation<ProgramsTaskTableView, TaskTableViewModel>();
+        containerRegistry.RegisterForNavigation<AllTasksTableView, TaskTableViewModel>();
         containerRegistry.RegisterForNavigation<AddGeneralTaskView>();
-        containerRegistry.RegisterForNavigation<LifeTasksView, ManageTasksViewModel>();
-        containerRegistry.RegisterForNavigation<SystemTasksView, ManageTasksViewModel>();
         containerRegistry.RegisterForNavigation<MainMenuView>();
         containerRegistry.RegisterForNavigation<AddTaskView>();
         containerRegistry.RegisterForNavigation<SettingsView>();
@@ -62,6 +59,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<ConfigService>();
         containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();
         containerRegistry.RegisterSingleton<ManageTasksViewModel>();
+        containerRegistry.RegisterSingleton<TaskTableViewModel>();
         containerRegistry.RegisterSingleton<ViewManager>();
         containerRegistry.RegisterSingleton<WorkManager>();
         containerRegistry.RegisterSingleton<PomodoroTimer>();

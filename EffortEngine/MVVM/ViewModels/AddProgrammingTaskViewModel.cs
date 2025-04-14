@@ -1,11 +1,8 @@
 ﻿using DataAccess.Data;
 using EffortEngine.LocalLibrary;
 using MahApps.Metro.Controls.Dialogs;
-using SharedProject.Events;
 using SharedProject.Models;
-using SharedProject.Views;
 using System.Collections.ObjectModel;
-using ValidationComponent;
 
 namespace EffortEngine.MVVM.ViewModels;
 
@@ -100,7 +97,7 @@ public class AddProgrammingTaskViewModel : BindableBase
 
     public IAsyncCommand AddTaskCommand => new AsyncDelegateCommand(async () =>
     {
-        if (!await taskManager.TryAddTask(TaskName, TaskDescription, TaskPriority, SelectedTabIndex, SelectedProgram?.Id ?? 0)) return;
+        if (!await taskManager.TryAddTask(TaskName, TaskDescription, TaskPriority, SelectedTabIndex, SelectedProgram?.Id ?? null)) return;
 
         await dialogCoordinator.ShowMessageAsync(this, "Dodano zadanie",
            $"Nazwa: {TaskName}\n{TaskManager.TaskToAdd.Type} został dodany do programu {SelectedProgram?.Name}.");
@@ -109,32 +106,9 @@ public class AddProgrammingTaskViewModel : BindableBase
 
     public IAsyncCommand AddProgramCommand => new AsyncDelegateCommand(async () =>
     {
-        Program program = new()
+        if (await taskManager.TryAddProgram(TaskName))
         {
-            Name = TaskName
-        };
-
-        var validator = new AddProgramValidation(programData);
-        var results = await validator.ValidateAsync(program);
-
-        if (results.IsValid)
-        {
-            program.TotalWorkTime = 0;
-            await programData.InsertProgramAsync(program);
-            eventAggregator.GetEvent<ProgramAddedEvent>().Publish(program);
-            await dialogCoordinator.ShowMessageAsync(this, "Dodano program", $"Program {program.Name} został dodany.");
-        }
-
-        else
-        {
-            var validationErrors = string.Join("\n", results.Errors.Select(e => e.ErrorMessage));
-
-            var dialog = new ErrorDialog()
-            {
-                DialogText = validationErrors
-            };
-
-            dialog.ShowDialog();
+            await dialogCoordinator.ShowMessageAsync(this, "Dodano program", $"Program {TaskName} został dodany.");
         }
 
         await ClearFields();
