@@ -25,12 +25,26 @@ public class TaskBase : BindableBase
     public string Description { get; set; }
     public int Priority { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime LastUpdated { get; set; }
+
+    private DateTime _lastUpdated;
+    public DateTime LastUpdated
+    {
+        get => _lastUpdated;
+        set => SetProperty(ref _lastUpdated, value);
+    }
+
     public DateTime? DueDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public TaskStatus Status { get; set; }
     public TaskType Type { get; set; }
-    public decimal TotalWorkTime { get; set; }
+
+    private decimal _totalWorkTime;
+    public decimal TotalWorkTime
+    {
+        get => _totalWorkTime;
+        set => SetProperty(ref _totalWorkTime, value);
+    }
+
     public string? Note { get; set; }
     public int? ProgramId { get; set; }
 

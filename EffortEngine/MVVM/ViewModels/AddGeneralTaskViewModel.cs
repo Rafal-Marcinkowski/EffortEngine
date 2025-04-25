@@ -1,10 +1,9 @@
-﻿using DataAccess.Data;
-using EffortEngine.LocalLibrary;
+﻿using EffortEngine.LocalLibrary.Services;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class AddGeneralTaskViewModel(ITaskData taskData, TaskManager taskManager, DialogCoordinator dialogCoordinator) : BindableBase
+public class AddGeneralTaskViewModel(TaskManager taskManager, DialogCoordinator dialogCoordinator) : BindableBase
 {
     private string taskName = string.Empty;
     public string TaskName
@@ -35,9 +34,22 @@ public class AddGeneralTaskViewModel(ITaskData taskData, TaskManager taskManager
         {
             if (SetProperty(ref selectedTabIndex, value))
             {
-                HandleTabSelectionChanged();
+                _ = HandleTabSelectionChanged();
             }
         }
+    }
+
+    public async Task HandleTabSelectionChanged()
+    {
+        await Task.Delay(50);
+        await ClearFields();
+    }
+
+    private async Task ClearFields()
+    {
+        TaskPriority = null;
+        TaskName = null;
+        TaskDescription = null;
     }
 
     public IAsyncCommand AddTaskCommand => new AsyncDelegateCommand(async () =>
@@ -48,18 +60,5 @@ public class AddGeneralTaskViewModel(ITaskData taskData, TaskManager taskManager
         await ClearFields();
     });
 
-    public async Task HandleTabSelectionChanged()
-    {
-        await Task.Delay(50);
-        await ClearFields();
-    }
-
     public IAsyncCommand ResetCommand => new AsyncDelegateCommand(async () => await ClearFields());
-
-    private async Task ClearFields()
-    {
-        TaskPriority = null;
-        TaskName = null;
-        TaskDescription = null;
-    }
 }

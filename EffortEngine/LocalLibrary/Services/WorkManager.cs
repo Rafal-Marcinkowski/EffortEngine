@@ -1,12 +1,12 @@
 ﻿using SharedProject.Events;
 
-namespace EffortEngine.LocalLibrary;
+namespace EffortEngine.LocalLibrary.Services;
 
 public class WorkManager : BindableBase
 {
     public WorkManager(SessionManager sessionManager, IEventAggregator eventAggregator, PomodoroTimer pomodoroTimer, TaskManager taskManager)
     {
-        this.SessionManager = sessionManager;
+        SessionManager = sessionManager;
         this.eventAggregator = eventAggregator;
         PomodoroTimer = pomodoroTimer;
         this.taskManager = taskManager;

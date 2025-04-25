@@ -1,6 +1,7 @@
 ﻿using DataAccess.Data;
 using DataAccess.DBAccess;
 using EffortEngine.LocalLibrary;
+using EffortEngine.LocalLibrary.Services;
 using EffortEngine.MVVM.ViewModels;
 using EffortEngine.MVVM.Views;
 using MahApps.Metro.Controls.Dialogs;
@@ -27,10 +28,8 @@ public partial class App : PrismApplication
 
         var regionManager = Container.Resolve<IRegionManager>();
         regionManager.RequestNavigate("MainRegion", nameof(MainMenuView));
-        regionManager.RequestNavigate("InformationBarRegion", nameof(InformationBarView));
+        regionManager.RequestNavigate("PomodoroBarRegion", nameof(PomodoroBarView));
     }
-
-
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
@@ -42,7 +41,7 @@ public partial class App : PrismApplication
 
         containerRegistry.RegisterForNavigation<ManageTasksView>();
         containerRegistry.RegisterForNavigation<AddProgrammingTaskView>();
-        containerRegistry.RegisterForNavigation<InformationBarView>();
+        containerRegistry.RegisterForNavigation<PomodoroBarView>();
         containerRegistry.RegisterForNavigation<TaskTableView>();
         containerRegistry.RegisterForNavigation<ProgramsTaskTableView, TaskTableViewModel>();
         containerRegistry.RegisterForNavigation<AllTasksTableView, TaskTableViewModel>();
@@ -60,6 +59,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();
         containerRegistry.RegisterSingleton<ManageTasksViewModel>();
         containerRegistry.RegisterSingleton<TaskTableViewModel>();
+        containerRegistry.RegisterSingleton<DataCoordinator>();
         containerRegistry.RegisterSingleton<ViewManager>();
         containerRegistry.RegisterSingleton<WorkManager>();
         containerRegistry.RegisterSingleton<PomodoroTimer>();
@@ -69,7 +69,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IProgramData, ProgramData>();
         containerRegistry.RegisterSingleton<IPomodoroSessionData, PomodoroSessionData>();
         containerRegistry.RegisterSingleton<ITaskData, TaskData>();
-        containerRegistry.RegisterSingleton<InformationBarViewModel>();
+        containerRegistry.RegisterSingleton<PomodoroBarViewModel>();
         containerRegistry.RegisterSingleton<SettingsViewModel>();
     }
 }

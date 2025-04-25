@@ -1,8 +1,8 @@
 ﻿namespace EffortEngine.MVVM.Views;
 
-public partial class InformationBarView
+public partial class PomodoroBarView
 {
-    public InformationBarView()
+    public PomodoroBarView()
     {
         InitializeComponent();
     }

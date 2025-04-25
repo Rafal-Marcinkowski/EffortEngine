@@ -28,7 +28,10 @@
                 <DataGridTemplateColumn MaxWidth="150" Header="Nazwa">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,0,5,0"
+                                Text="{Binding Name}"
+                                TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -46,11 +49,11 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding TotalWorkTime}" />
+                            <TextBlock Text="{Binding TotalWorkTime}" Style="{StaticResource CenteredTextStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding LastUpdated}" Header="Ostatnia zmiana" />
+                <DataGridTextColumn Binding="{Binding LastUpdated, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Header="Ostatnia zmiana" />
 
                 <DataGridTemplateColumn Width="Auto" Header="Akcje">
                     <DataGridTemplateColumn.CellTemplate>
@@ -67,7 +70,7 @@
                                     <Style BasedOn="{StaticResource MahApps.Styles.Button.Flat}" TargetType="Button">
                                         <Setter Property="Visibility" Value="Visible" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                            <DataTrigger Binding="{Binding Status, UpdateSourceTrigger=PropertyChanged}" Value="Completed">
                                                 <Setter Property="Visibility" Value="Collapsed" />
                                             </DataTrigger>
                                         </Style.Triggers>

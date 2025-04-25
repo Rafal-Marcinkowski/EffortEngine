@@ -2,7 +2,7 @@
 using SharedProject.Events;
 using SharedProject.Models;
 
-namespace EffortEngine.LocalLibrary;
+namespace EffortEngine.LocalLibrary.Services;
 
 public class SessionManager : BindableBase
 {
@@ -50,13 +50,16 @@ public class SessionManager : BindableBase
         if (value is TaskBase)
         {
             PomodoroSession.Tasks[^1].TotalWorkTime += PomodoroTimer.TotalWorkMinutes;
-            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(PomodoroSession.Tasks[^1].Id);
+            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(new WorkTimeAddedEventArgs(PomodoroSession.Tasks[^1].Id,
+                PomodoroTimer.TotalWorkMinutes));
         }
 
         else if (value is Program)
         {
             PomodoroSession.Programs[^1].TotalWorkTime += PomodoroTimer.TotalWorkMinutes;
-            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(PomodoroSession.Programs[^1].Id);
+            eventAggregator.GetEvent<WorkTimeAddedEvent>().Publish(new WorkTimeAddedEventArgs(PomodoroSession.Programs[^1].Id,
+                PomodoroTimer.TotalWorkMinutes,
+                true));
         }
 
         PomodoroTimer.ResetWorkTime();
@@ -79,37 +82,29 @@ public class SessionManager : BindableBase
 
     public IAsyncCommand FinishSessionCommand => new AsyncDelegateCommand(async () =>
     {
-        if (IsSessionAlive)
+        if (!IsSessionAlive) return;
+
+        await AddWorkTime(lastItemAdded);
+
+        PomodoroSession.TotalWorkTime += PomodoroTimer.ActiveWorkMinutes;
+
+        if (PomodoroSession.TotalWorkTime >= 1)
         {
-            await AddWorkTime(lastItemAdded);
+            PomodoroSession.Status = PomodoroSession.SessionStatus.Completed;
+            PomodoroSession.EndTime = DateTime.Now;
 
-            IsSessionAlive = false;
-            lastItemAdded = null;
-
-            PomodoroSession.TotalWorkTime += PomodoroTimer.ActiveWorkMinutes;
-
-            if (PomodoroSession.TotalWorkTime >= 1)
-            {
-                PomodoroSession.Status = PomodoroSession.SessionStatus.Completed;
-                PomodoroSession.EndTime = DateTime.Now;
-
-                await pomodoroSessionData.InsertSessionAsync(PomodoroSession);
-
-                await UpdateDataBase();
-            }
-
-            eventAggregator.GetEvent<SessionFinishedEvent>().Publish();
+            await pomodoroSessionData.InsertSessionAsync(PomodoroSession);
         }
+
+        await UpdateDataBase();
+        IsSessionAlive = false;
+        lastItemAdded = null;
+        eventAggregator.GetEvent<SessionFinishedEvent>().Publish();
     });
 
     public async Task HandleSessionElapsed()
     {
-        if (IsSessionAlive)
-        {
-            await AddWorkTime(lastItemAdded);
-            PomodoroSession.TotalWorkTime += PomodoroTimer.ActiveWorkMinutes;
-            eventAggregator.GetEvent<SessionFinishedEvent>().Publish();
-        }
+        await FinishSessionCommand.ExecuteAsync(null);
     }
 
     private async Task UpdateDataBase()

@@ -35,7 +35,7 @@ public class PomodoroTimer : BindableBase, IDisposable
         InitializeTimer();
         ResetTimerValues();
 
-        _eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await HandleSessionFinished());
+        _eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await Reset());
     }
 
     private void InitializeTimer()
@@ -51,7 +51,7 @@ public class PomodoroTimer : BindableBase, IDisposable
     {
         _timeRemaining = _config.WorkDurationMinutes * 60;
         TimerDisplay = $"Praca: {TimeSpan.FromMinutes(_config.WorkDurationMinutes):mm\\:ss}";
-        RoundCounter = $"Runda 1/{_config.RoundsCount}";
+        RoundCounter = $"Brak sesji";
     }
 
     public IAsyncCommand StartPauseCommand { get; }
@@ -142,7 +142,6 @@ public class PomodoroTimer : BindableBase, IDisposable
     private async Task FinishSession()
     {
         await Reset();
-        _eventAggregator.GetEvent<SessionFinishedEvent>().Publish();
     }
 
     private async Task Reset()
@@ -155,14 +154,9 @@ public class PomodoroTimer : BindableBase, IDisposable
         _roundsCompleted = 0;
         _isBreak = false;
         _totalWork = 0;
-        _activeWorkTime = 0;
-    }
-
-    private async Task HandleSessionFinished()
-    {
-        await Reset();
         CurrentTaskText = string.Empty;
         RoundCounter = "Brak sesji";
+        _activeWorkTime = 0;
     }
 
     private async void OnTimerTick(object sender, EventArgs e)
@@ -182,31 +176,31 @@ public class PomodoroTimer : BindableBase, IDisposable
 
         if (_timeRemaining == 0)
         {
-            _isBreak = !_isBreak;
-            _timeRemaining = _isBreak ? _config.BreakDurationMinutes * 60 : _config.WorkDurationMinutes * 60;
-
-            if (_isBreak)
+            if (!_isBreak)
             {
-                _eventAggregator.GetEvent<BreakStartedEvent>().Publish();
-                await PlaySoundAsync("breakstart.mp3");
-            }
-            else
-            {
-                _eventAggregator.GetEvent<BreakEndedEvent>().Publish();
                 _roundsCompleted++;
 
-                if (_roundsCompleted < _config.RoundsCount)
-                {
-                    await PlaySoundAsync("breakend.mp3");
-                    RoundCounter = $"Runda {_roundsCompleted + 1}/{_config.RoundsCount}";
-                }
-                else
+                if (_roundsCompleted >= _config.RoundsCount)
                 {
                     _eventAggregator.GetEvent<SessionElapsedEvent>().Publish();
                     await PlaySoundAsync("sessioncompleted.mp3");
                     await Task.Delay(250);
                     await FinishSession();
+                    return;
                 }
+
+                _isBreak = true;
+                _timeRemaining = _config.BreakDurationMinutes * 60;
+                _eventAggregator.GetEvent<BreakStartedEvent>().Publish();
+                await PlaySoundAsync("breakstart.mp3");
+            }
+            else
+            {
+                _isBreak = false;
+                _timeRemaining = _config.WorkDurationMinutes * 60;
+                _eventAggregator.GetEvent<BreakEndedEvent>().Publish();
+                await PlaySoundAsync("breakend.mp3");
+                RoundCounter = $"Runda {_roundsCompleted + 1}/{_config.RoundsCount}";
             }
         }
     }

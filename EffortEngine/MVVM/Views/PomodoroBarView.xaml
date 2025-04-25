@@ -1,0 +1,125 @@
+﻿<mah:MetroContentControl
+    x:Class="EffortEngine.MVVM.Views.PomodoroBarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Conv="clr-namespace:SharedProject.Converters;assembly=SharedProject"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:EffortEngine.MVVM.Views"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            FontFamily="Calibri"
+            FontSize="18"
+            FontWeight="DemiBold"
+            Foreground="Black"
+            Text="{Binding WorkManager.PomodoroTimer.CurrentTaskText}" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border
+                Grid.Column="0"
+                Margin="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                BorderBrush="DimGray"
+                BorderThickness="3">
+                <TextBlock
+                    Grid.Column="0"
+                    Height="auto"
+                    Padding="5"
+                    FontFamily="Calibri"
+                    FontSize="22"
+                    FontWeight="DemiBold"
+                    Foreground="Black"
+                    Text="{Binding WorkManager.PomodoroTimer.RoundCounter}" />
+            </Border>
+
+            <Border
+                Grid.Column="1"
+                Margin="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                BorderBrush="DimGray"
+                BorderThickness="3">
+                <TextBlock
+                    Height="auto"
+                    Padding="5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Calibri"
+                    FontSize="34"
+                    FontWeight="DemiBold"
+                    Foreground="Black"
+                    Text="{Binding WorkManager.PomodoroTimer.TimerDisplay}" />
+            </Border>
+
+            <Button
+                Grid.Column="2"
+                Width="auto"
+                Height="auto"
+                VerticalAlignment="Center"
+                Command="{Binding WorkManager.PomodoroTimer.StartPauseCommand}"
+                Style="{StaticResource SmallButtonStyle}">
+
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial
+                        Width="25"
+                        Height="25"
+                        Kind="{Binding WorkManager.PomodoroTimer.StartPauseIcon}" />
+                    <TextBlock
+                        Margin="5,4,0,0"
+                        FontFamily="Calibri"
+                        FontSize="14"
+                        FontWeight="DemiBold"
+                        Text="{Binding WorkManager.PomodoroTimer.StartPauseText}" />
+                </StackPanel>
+
+            </Button>
+
+            <Button
+                Grid.Column="3"
+                Width="auto"
+                Height="auto"
+                Margin="5,0,0,0"
+                VerticalAlignment="Center"
+                Command="{Binding WorkManager.SessionManager.FinishSessionCommand}"
+                Style="{StaticResource SmallButtonStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconOcticons
+                        Width="25"
+                        Height="25"
+                        Kind="MoveToEnd16" />
+                    <TextBlock
+                        Margin="5,4,0,0"
+                        FontFamily="Calibri"
+                        FontSize="14"
+                        FontWeight="DemiBold"
+                        Text="Zakończ sesję" />
+                </StackPanel>
+
+            </Button>
+        </Grid>
+
+    </Grid>
+</mah:MetroContentControl>

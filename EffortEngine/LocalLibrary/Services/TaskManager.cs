@@ -4,7 +4,7 @@ using SharedProject.Models;
 using SharedProject.Views;
 using ValidationComponent;
 
-namespace EffortEngine.LocalLibrary;
+namespace EffortEngine.LocalLibrary.Services;
 
 public class TaskManager(ITaskData taskData, IProgramData programData, IEventAggregator eventAggregator) : BindableBase
 {
@@ -32,7 +32,6 @@ public class TaskManager(ITaskData taskData, IProgramData programData, IEventAgg
 
     public async Task AddTaskAsync(TaskBase task)
     {
-
         await taskData.InsertTaskAsync(task);
     }
 

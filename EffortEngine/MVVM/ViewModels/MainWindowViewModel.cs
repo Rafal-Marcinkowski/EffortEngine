@@ -1,36 +1,15 @@
-﻿using EffortEngine.MVVM.Views;
+﻿using EffortEngine.LocalLibrary.Services;
 using System.Windows.Input;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class MainWindowViewModel(IRegionManager regionManager) : BindableBase
+public class MainWindowViewModel(ViewManager viewManager) : BindableBase
 {
+    public ICommand AddTaskCommand => new DelegateCommand(async () => await viewManager.NavigateToAddTask());
 
-    public ICommand AddTaskCommand => new DelegateCommand(() =>
-    {
-        var region = regionManager.Regions["MainRegion"];
-        region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(AddTaskView));
-    });
+    public ICommand ManageTasksCommand => new DelegateCommand(async () => await viewManager.NavigateToManageTasks());
 
-    public ICommand ManageTasksCommand => new DelegateCommand(() =>
-    {
-        var region = regionManager.Regions["MainRegion"];
-        region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(ManageTasksView));
-    });
+    public ICommand MainMenuCommand => new DelegateCommand(async () => await viewManager.NavigateToMainMenu());
 
-    public ICommand MainMenuCommand => new DelegateCommand(() =>
-    {
-        var region = regionManager.Regions["MainRegion"];
-        region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(MainMenuView));
-    });
-
-    public ICommand SettingsCommand => new DelegateCommand(() =>
-    {
-        var region = regionManager.Regions["MainRegion"];
-        region.RemoveAll();
-        regionManager.RequestNavigate("MainRegion", nameof(SettingsView));
-    });
+    public ICommand SettingsCommand => new DelegateCommand(async () => await viewManager.NavigateToSettings());
 }

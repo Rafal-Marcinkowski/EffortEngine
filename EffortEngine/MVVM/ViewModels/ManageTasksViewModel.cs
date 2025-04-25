@@ -1,42 +1,15 @@
 ﻿using EffortEngine.LocalLibrary;
+using EffortEngine.LocalLibrary.Services;
 using SharedProject.Events;
 using SharedProject.Models;
 using SharedProject.Views;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class ManageTasksViewModel : BindableBase, INavigationAware
+public class ManageTasksViewModel(IEventAggregator eventAggregator, DataCoordinator dataCoordinator, TaskTableViewModel taskTableViewModel)
+    : BindableBase, INavigationAware
 {
-    public ManageTasksViewModel(IEventAggregator eventAggregator, ViewManager viewManager)
-    {
-        this.eventAggregator = eventAggregator;
-        this.viewManager = viewManager;
-        this.TaskTableViewModel = ContainerLocator.Container.Resolve<TaskTableViewModel>();
-        this.eventAggregator.GetEvent<WorkTimeAddedEvent>().Subscribe(async (id) => await TaskTableViewModel.RefreshUI(id));
-    }
-
-    public TaskTableViewModel TaskTableViewModel { get; set; }
-    private readonly IEventAggregator eventAggregator;
-    private readonly ViewManager viewManager;
-
-    public async void OnNavigatedTo(NavigationContext navigationContext)
-    {
-        TaskTableViewModel.Clear();
-        ShowAllTasksCommand.ExecuteAsync(null);
-    }
-
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-    {
-        return false;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext)
-    {
-
-    }
-
-    public TaskBase SelectedTask => TaskTableViewModel.SelectedTask;
-    public Program SelectedProgram => TaskTableViewModel.SelectedProgram;
+    public TaskTableViewModel TaskTableViewModel { get; set; } = taskTableViewModel;
 
     public IAsyncCommand ShowProgramsCommand => new AsyncDelegateCommand(async () => await TaskTableViewModel.ShowPrograms());
 
@@ -82,8 +55,20 @@ public class ManageTasksViewModel : BindableBase, INavigationAware
                 task.Status = TaskBase.TaskStatus.Completed;
                 task.LastUpdated = DateTime.Now;
 
-                await viewManager.UpdateTaskAsync(task);
+                await dataCoordinator.UpdateTaskAsync(task);
             }
         }
     });
+
+    public void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        TaskTableViewModel.Clear();
+        _ = ShowAllTasksCommand.ExecuteAsync(null);
+    }
+
+    public bool IsNavigationTarget(NavigationContext navigationContext) => false;
+
+    public void OnNavigatedFrom(NavigationContext navigationContext)
+    {
+    }
 }

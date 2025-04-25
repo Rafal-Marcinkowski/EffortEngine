@@ -63,7 +63,7 @@
 
         <ContentControl prism:RegionManager.RegionName="UpperBarRegion" Grid.Row="0"/>
         <ContentControl prism:RegionManager.RegionName="MainRegion" Grid.Row="1"/>
-        <ContentControl prism:RegionManager.RegionName="InformationBarRegion" Grid.Row="2"/>
+        <ContentControl prism:RegionManager.RegionName="PomodoroBarRegion" Grid.Row="2"/>
 
     </Grid>
    

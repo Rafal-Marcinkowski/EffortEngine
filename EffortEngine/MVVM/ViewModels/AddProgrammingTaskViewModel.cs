@@ -1,5 +1,5 @@
 ﻿using DataAccess.Data;
-using EffortEngine.LocalLibrary;
+using EffortEngine.LocalLibrary.Services;
 using MahApps.Metro.Controls.Dialogs;
 using SharedProject.Models;
 using System.Collections.ObjectModel;
@@ -8,21 +8,19 @@ namespace EffortEngine.MVVM.ViewModels;
 
 public class AddProgrammingTaskViewModel : BindableBase
 {
-    private readonly IProgramData programData;
-    private readonly IEventAggregator eventAggregator;
-    private readonly IDialogCoordinator dialogCoordinator;
-    private readonly TaskManager taskManager;
-
     public AddProgrammingTaskViewModel(IProgramData programData,
-        IEventAggregator eventAggregator, IDialogCoordinator dialogCoordinator, TaskManager taskManager)
+         IDialogCoordinator dialogCoordinator, TaskManager taskManager)
     {
         this.programData = programData;
-        this.eventAggregator = eventAggregator;
         this.dialogCoordinator = dialogCoordinator;
         this.taskManager = taskManager;
         LoadProgramIdCommand.Execute(null);
         _ = GetProgramsAsync();
     }
+
+    private readonly IProgramData programData;
+    private readonly IDialogCoordinator dialogCoordinator;
+    private readonly TaskManager taskManager;
 
     private async Task GetProgramsAsync()
     {
@@ -84,6 +82,15 @@ public class AddProgrammingTaskViewModel : BindableBase
         get => taskPriority;
         set => SetProperty(ref taskPriority, value);
     }
+
+    private async Task ClearFields()
+    {
+        TaskPriority = null;
+        TaskName = null;
+        TaskDescription = null;
+        SelectedProgram = null;
+    }
+
     public IAsyncCommand LoadProgramIdCommand => new AsyncDelegateCommand(async () =>
     {
         if (SelectedProgram != null)
@@ -119,12 +126,4 @@ public class AddProgrammingTaskViewModel : BindableBase
         await Task.Delay(50);
         await ClearFields();
     });
-
-    private async Task ClearFields()
-    {
-        TaskPriority = null;
-        TaskName = null;
-        TaskDescription = null;
-        SelectedProgram = null;
-    }
 }

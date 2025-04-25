@@ -1,12 +1,28 @@
-﻿using EffortEngine.LocalLibrary;
+﻿using EffortEngine.LocalLibrary.Services;
 using EffortEngine.MVVM.Views;
+using SharedProject.Events;
 using SharedProject.Models;
 using System.Collections.ObjectModel;
 
 namespace EffortEngine.MVVM.ViewModels;
 
-public class TaskTableViewModel(IRegionManager regionManager, ViewManager viewManager) : BindableBase
+public class TaskTableViewModel : BindableBase, INavigationAware
 {
+    public TaskTableViewModel(ViewManager viewManager, DataCoordinator dataCoordinator, IEventAggregator eventAggregator)
+    {
+        this.viewManager = viewManager;
+        this.dataCoordinator = dataCoordinator;
+        this.eventAggregator = eventAggregator;
+        this.eventAggregator.GetEvent<WorkTimeAddedEvent>().Subscribe(async (eventArgs) => await RefreshUI(eventArgs));
+    }
+
+    private readonly ViewManager viewManager;
+    private readonly DataCoordinator dataCoordinator;
+    private readonly IEventAggregator eventAggregator;
+
+    public string SelectedTaskName => SelectedProgram?.Name ?? SelectedTask?.Name ?? string.Empty;
+    public string SelectedTaskStatus => SelectedTask?.Status.ToString() ?? string.Empty;
+
     private Program selectedProgram;
     public Program SelectedProgram
     {
@@ -21,7 +37,7 @@ public class TaskTableViewModel(IRegionManager regionManager, ViewManager viewMa
         set => SetProperty(ref selectedTask, value);
     }
 
-    private ObservableCollection<Program> programList;
+    private ObservableCollection<Program> programList = [];
     public ObservableCollection<Program> ProgramList
     {
         get => programList;
@@ -35,74 +51,83 @@ public class TaskTableViewModel(IRegionManager regionManager, ViewManager viewMa
         set => SetProperty(ref taskList, value);
     }
 
-    public string SelectedTaskName => SelectedProgram?.Name ?? SelectedTask?.Name ?? string.Empty;
-    public string SelectedTaskStatus => SelectedTask?.Status.ToString() ?? string.Empty;
-
-    public async Task RefreshUI(int id)
+    public async Task RefreshUI(WorkTimeAddedEventArgs eventArgs)
     {
-        var task = await viewManager.GetTaskByIdAsync(id);
-        if (task == null)
-            return;
-
-        if (task.ProgramId is not null)
+        if (eventArgs.IsProgram)
         {
-            var program = await viewManager.GetProgramByIdAsync(task.ProgramId.Value);
+            var program = ProgramList.FirstOrDefault(q => q.Id == eventArgs.Id);
             if (program != null)
-                program.Name = program.Name;
+            {
+                RaisePropertyChanged(nameof(ProgramList));
+                program.TotalWorkTime += eventArgs.WorkTimeToAdd;
+            }
         }
-
-        var existingTask = TaskList.FirstOrDefault(t => t.Id == task.Id);
-        if (existingTask != null)
+        else
         {
-            int index = TaskList.IndexOf(existingTask);
-            TaskList[index] = task;
+            var task = TaskList.FirstOrDefault(q => q.Id == eventArgs.Id);
+            if (task != null)
+            {
+                RaisePropertyChanged(nameof(TaskList));
+                task.TotalWorkTime += eventArgs.WorkTimeToAdd;
+            }
         }
     }
 
     public async Task ShowPrograms()
     {
-        ProgramList = [.. await viewManager.GetProgramsWithTasksAsync()];
-        regionManager.Regions["TaskTableRegion"].RemoveAll();
-        regionManager.RequestNavigate("TaskTableRegion", nameof(ProgramsTaskTableView));
+        Clear();
+        ProgramList = [.. await dataCoordinator.GetProgramsWithTasksAsync()];
+        await viewManager.NavigateToView("TaskTableRegion", nameof(ProgramsTaskTableView));
     }
 
     public async Task ShowAllTasks()
     {
-        TaskList = [.. await viewManager.GetAllTasksAsync()];
-        regionManager.Regions["TaskTableRegion"].RemoveAll();
-        regionManager.RequestNavigate("TaskTableRegion", nameof(AllTasksTableView));
+        TaskList = [.. await dataCoordinator.GetAllTasksAsync()];
+        await viewManager.NavigateToView("TaskTableRegion", nameof(AllTasksTableView));
     }
 
     public async Task ShowAllProgrammingTasks()
     {
-        TaskList = [.. await viewManager.GetProgrammingTasksAsync()];
-        regionManager.Regions["TaskTableRegion"].RemoveAll();
-        regionManager.RequestNavigate("TaskTableRegion", nameof(TaskTableView));
+        TaskList = [.. await dataCoordinator.GetProgrammingTasksAsync()];
+        await viewManager.NavigateToView("TaskTableRegion", nameof(TaskTableView));
     }
 
     public async Task ShowSystemTasks()
     {
-        TaskList = [.. await viewManager.GetTasksByTypeAsync(TaskBase.TaskType.SystemTask)];
-        regionManager.Regions["TaskTableRegion"].RemoveAll();
-        regionManager.RequestNavigate("TaskTableRegion", nameof(TaskTableView));
+        TaskList = [.. await dataCoordinator.GetTasksByTypeAsync(TaskBase.TaskType.SystemTask)];
+        await viewManager.NavigateToView("TaskTableRegion", nameof(TaskTableView));
     }
+
     public async Task ShowStockMarketTasks()
     {
-        TaskList = [.. await viewManager.GetTasksByTypeAsync(TaskBase.TaskType.StockMarketTask)];
-        regionManager.Regions["TaskTableRegion"].RemoveAll();
-        regionManager.RequestNavigate("TaskTableRegion", nameof(TaskTableView));
+        TaskList = [.. await dataCoordinator.GetTasksByTypeAsync(TaskBase.TaskType.StockMarketTask)];
+        await viewManager.NavigateToView("TaskTableRegion", nameof(TaskTableView));
     }
 
     public async Task ShowLifeTasks()
     {
-        TaskList = [.. await viewManager.GetTasksByTypeAsync(TaskBase.TaskType.LifeTask)];
-        regionManager.Regions["TaskTableRegion"].RemoveAll();
-        regionManager.RequestNavigate("TaskTableRegion", nameof(TaskTableView));
+        TaskList = [.. await dataCoordinator.GetTasksByTypeAsync(TaskBase.TaskType.LifeTask)];
+        await viewManager.NavigateToView("TaskTableRegion", nameof(TaskTableView));
     }
 
     internal void Clear()
     {
         SelectedProgram = null;
         SelectedTask = null;
+    }
+
+    public void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        Clear();
+    }
+
+    public bool IsNavigationTarget(NavigationContext navigationContext)
+    {
+        return false;
+    }
+
+    public void OnNavigatedFrom(NavigationContext navigationContext)
+    {
+        return;
     }
 }

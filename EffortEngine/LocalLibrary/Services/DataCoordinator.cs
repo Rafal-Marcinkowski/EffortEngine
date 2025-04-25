@@ -1,9 +1,9 @@
 ﻿using DataAccess.Data;
 using SharedProject.Models;
 
-namespace EffortEngine.LocalLibrary;
+namespace EffortEngine.LocalLibrary.Services;
 
-public class ViewManager(ITaskData taskData, IProgramData programData) : BindableBase
+public class DataCoordinator(ITaskData taskData, IProgramData programData) : BindableBase
 {
     public async Task<IEnumerable<TaskBase>> GetAllTasksAsync() =>
         [.. await taskData.GetAllTasksAsync()];
