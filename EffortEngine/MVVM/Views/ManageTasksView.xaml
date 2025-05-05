@@ -117,7 +117,8 @@
                     Margin="5,0,5,0"
                     AcceptsReturn="True"
                     FontSize="10"
-                    Text="{Binding TaskTableViewModel.SelectedTask.Description, Mode=TwoWay}" />
+                    Text="{Binding TaskTableViewModel.SelectedTask.Description, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
                 <TextBlock
                     Margin="0,0,0,0"
                     HorizontalAlignment="Center"
