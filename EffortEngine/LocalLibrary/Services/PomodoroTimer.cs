@@ -6,12 +6,12 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace EffortEngine.LocalLibrary;
+namespace EffortEngine.LocalLibrary.Services;
 
 public class PomodoroTimer : BindableBase, IDisposable
 {
     private readonly ConfigService _configService;
-    private readonly PomodoroConfig _config;
+    private PomodoroConfig _config;
     private DispatcherTimer _timer;
     private int _timeRemaining;
     private int _roundsCompleted = 0;
@@ -36,6 +36,15 @@ public class PomodoroTimer : BindableBase, IDisposable
         ResetTimerValues();
 
         _eventAggregator.GetEvent<SessionFinishedEvent>().Subscribe(async () => await Reset());
+        _eventAggregator.GetEvent<ConfigUpdatedEvent>().Subscribe(async config => await UpdateConfig(config));
+    }
+
+    public async Task UpdateConfig(PomodoroConfig config)
+    {
+        if (SessionManager.IsSessionAlive) return;
+
+        _config = config;
+        ResetTimerValues();
     }
 
     private void InitializeTimer()

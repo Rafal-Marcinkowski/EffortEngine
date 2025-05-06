@@ -1,5 +1,4 @@
-﻿using EffortEngine.LocalLibrary;
-using EffortEngine.LocalLibrary.Services;
+﻿using EffortEngine.LocalLibrary.Services;
 using SharedProject.Events;
 using SharedProject.Models;
 using SharedProject.Views;

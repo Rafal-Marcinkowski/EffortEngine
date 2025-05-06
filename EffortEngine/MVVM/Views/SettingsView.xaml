@@ -46,7 +46,7 @@
                     Maximum="120"
                     Minimum="1"
                     StringFormat="N0"
-                    Value="{Binding WorkDurationMinutes}" />
+                    Value="{Binding CurrentConfig.WorkDurationMinutes}" />
             </StackPanel>
 
             <StackPanel Margin="0,0,0,5">
@@ -63,7 +63,7 @@
                     Maximum="30"
                     Minimum="1"
                     StringFormat="N0"
-                    Value="{Binding BreakDurationMinutes}" />
+                    Value="{Binding CurrentConfig.BreakDurationMinutes}" />
             </StackPanel>
 
             <StackPanel Margin="0,0,0,5">
@@ -80,7 +80,7 @@
                     Maximum="10"
                     Minimum="1"
                     StringFormat="N0"
-                    Value="{Binding RoundsCount}" />
+                    Value="{Binding CurrentConfig.RoundsCount}" />
             </StackPanel>
 
             <StackPanel

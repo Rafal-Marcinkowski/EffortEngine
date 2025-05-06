@@ -1,6 +1,5 @@
 ﻿using DataAccess.Data;
 using DataAccess.DBAccess;
-using EffortEngine.LocalLibrary;
 using EffortEngine.LocalLibrary.Services;
 using EffortEngine.MVVM.ViewModels;
 using EffortEngine.MVVM.Views;
