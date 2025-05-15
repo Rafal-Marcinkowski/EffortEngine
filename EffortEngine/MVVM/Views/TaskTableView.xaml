@@ -49,7 +49,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding TotalWorkTime}" Style="{StaticResource CenteredTextStyle}"/>
+                            <TextBlock Style="{StaticResource CenteredTextStyle}" Text="{Binding TotalWorkTime}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -61,7 +61,7 @@
                             <Button
                                 Margin="2"
                                 Padding="5,2"
-                                Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType=Controls:MetroContentControl}}"
                                 CommandParameter="{Binding}"
                                 Content="Zakończ"
                                 FontSize="10"

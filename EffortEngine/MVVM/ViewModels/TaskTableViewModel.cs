@@ -2,7 +2,9 @@
 using EffortEngine.MVVM.Views;
 using SharedProject.Events;
 using SharedProject.Models;
+using SharedProject.Views;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace EffortEngine.MVVM.ViewModels;
 
@@ -72,6 +74,30 @@ public class TaskTableViewModel : BindableBase, INavigationAware
             }
         }
     }
+
+    public IAsyncCommand CompleteTaskCommand => new AsyncDelegateCommand<TaskBase>(async task =>
+    {
+        MessageBox.Show("1");
+        if (task != null)
+        {
+            var dialog = new ConfirmationDialog { DialogText = $"Zakończyć zadanie: {SelectedTaskName}?" };
+            dialog.ShowDialog();
+
+            if (dialog.Result)
+            {
+                if (TaskManager.CurrentTask?.Id == task.Id && SessionManager.IsSessionAlive)
+                {
+                    task.TotalWorkTime += PomodoroTimer.ActiveWorkMinutes;
+                    PomodoroTimer.ResetWorkTime();
+                }
+
+                task.Status = TaskBase.TaskStatus.Completed;
+                task.LastUpdated = DateTime.Now;
+
+                await dataCoordinator.UpdateTaskAsync(task);
+            }
+        }
+    });
 
     public async Task ShowPrograms()
     {

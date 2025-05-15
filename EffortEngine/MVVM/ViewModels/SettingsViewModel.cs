@@ -37,6 +37,7 @@ public class SettingsViewModel : BindableBase
     private async Task ResetToDefaults()
     {
         CurrentConfig = new PomodoroConfig();
+        _configService.SaveConfig(CurrentConfig);
         RaisePropertyChanged(nameof(CurrentConfig));
         this.eventAggregator.GetEvent<ConfigUpdatedEvent>().Publish(CurrentConfig);
         await _dialogCoordinator.ShowMessageAsync(this, "Przywrócono", "Domyślne ustawienia zostały przywrócone.");

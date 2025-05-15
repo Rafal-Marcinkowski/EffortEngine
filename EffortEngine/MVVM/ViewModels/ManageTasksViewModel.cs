@@ -36,28 +36,7 @@ public class ManageTasksViewModel(IEventAggregator eventAggregator, DataCoordina
         }
     });
 
-    public IAsyncCommand CompleteTaskCommand => new AsyncDelegateCommand<TaskBase>(async task =>
-    {
-        if (task != null)
-        {
-            var dialog = new ConfirmationDialog { DialogText = $"Zakończyć zadanie: {TaskTableViewModel.SelectedTaskName}?" };
-            dialog.ShowDialog();
 
-            if (dialog.Result)
-            {
-                if (TaskManager.CurrentTask?.Id == task.Id && SessionManager.IsSessionAlive)
-                {
-                    task.TotalWorkTime += PomodoroTimer.ActiveWorkMinutes;
-                    PomodoroTimer.ResetWorkTime();
-                }
-
-                task.Status = TaskBase.TaskStatus.Completed;
-                task.LastUpdated = DateTime.Now;
-
-                await dataCoordinator.UpdateTaskAsync(task);
-            }
-        }
-    });
 
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
